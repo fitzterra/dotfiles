@@ -1,0 +1,22 @@
+# Local system config changes.
+# This file is sourced from ~/.bashrc to make any local changes to the system
+# environment that deviates from the default debian setup. The reason for this
+# file is so that we do not need to edit any of the defautl system config files
+# except ~/.bashrc. This means that the package maintainer's default config
+# files can be installed without merging their new config changes to our
+# local changes on package upgrades.
+
+# First source any system wide local changes
+[ -f /etc/bash.rclocal ] && . /etc/bash.rclocal
+
+# Any further user specific local changes can be made here
+
+# Source todo.sh bash completion and also set an alias for todo.sh
+TODO_COMP=~/.todo/todo_completion
+[ -f "$TODO_COMP" ] && source "$TODO_COMP"
+alias t='todo.sh'
+# Make auto complete also work for the alias
+complete -F _todo t
+
+# While we're at it, also make the sudo alias 's' auto complete
+complete -F _root_command s
