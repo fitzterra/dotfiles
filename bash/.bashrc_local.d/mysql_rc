@@ -1,0 +1,5 @@
+# Prompt for MYSQL - this should go in ~/.my.cnf, but since .my.cnf is also
+# used for keeping passwords, this does not make it practicle to keep in the
+# dotfiles repo.
+# Until a better solution is found, we'll use this to set the prompt.
+export MYSQL_PS1=$(echo -e "\u@$(hostname -s):mysql> ")
