@@ -1,0 +1,11 @@
+# This file servers two purposes:
+# 1. Ignore all vim pathogen bundles ending up in this dir to be ignored by git
+# 2. Still allow this dir to be added to git
+#
+# Since this dir is part of the dotfiles installation, after installation and
+# adding any bundles for pathogen to install, these bundles will end up in this
+# dir on the local machine, but since they are mostly clones of some other git
+# repo, we do not (for now at least) want to version them under the dotfiles
+# repo.
+
+*/

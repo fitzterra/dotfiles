@@ -3,86 +3,26 @@
 # Script to install and manage dotfiles
 
 ##~~ Variables ~~##
-MYDIR=$(dirname $0)
-ME=$(basename $0)
+# We export the variables so that the pre/post setup/remove scripts have access
+# to them.
+export MYDIR=$(realpath -s $(dirname $0))
+export ME=$(basename $0)
+
+# Where to install to. Can be overridden by environment variable
+export INSTALLTARGET=${INSTALLTARGET:=~/}
+
 # Declare an associative array where the keys are the component names, and the
 # values are info strings about the component retrieved from the
 # README.component files in their respective dirs.
 declare -A COMPS
 
 ##~~ Functions ~~##
-function setBashRcHook ()
-{
-	# This function appends the data in $HOOK to the end of the files in
-	# $FILES. If the specific .bashrc already has the $SIGs signature, it
-	# is skipped and nothing is appended.
-    # Technically it is meant to only add a hook to the end of ~/.bashrc to
-    # source our own rc file, but it can be generalized to do all .bashrc's in
-    # all home dirs for example - if has the versatility if needed.
-    #
-    # Passing an argument of -d will remove any hooks (with both start and end
-    # signatures in tact) from the file(s)
-	
-	##~~ Variables ~~##
-	SIGs='###-DF:HOOK'
-	SIGe='###-FD:KOOH'
-	HOOK=$(
-cat <<__HOOK__
-
-$SIGs -- do not remove. added by $(basename $0)
-# Source the local config changes file if it exists
-[ -f ~/.bashrc_local ] && . ~/.bashrc_local
-$SIGe -- do not remove - hook end
-
-__HOOK__
-)
-    # If $HOOKFILES is defined we get the list of files from there, else
-    # default to ~/.bashrc
-	FILES=${HOOKFILES:-~/.bashrc}
-	
-	# Update all files
-	for f in $FILES; do
-		# Ignore it if it does not exist
-		[ ! -f "$f" ] && continue
-
-        # Remove?
-        if [ "$1" = "-d" ]; then
-            echo -n "Removing hook from $f: ..."
-            # This can probably be done with sed alone, but I do not know sed
-            # well enough :-(
-            # The intent is to use se'd line matching to only delete the lines
-            # between the start and end sigs. This works fine unless the end
-            # sig is not found in which case all the lines from start to end
-            # sig will be deleted - how do you make sed NOT to the job unless
-            # the las line spec is also found?
-            # My dirty solution is to use sed to match and output only the
-            # block between the sigs. This output is then grep'ed for the end
-            # sig. If found, we know the block is good and we can do another
-            # proper delete using sed.
-            if (sed -n "/${SIGs}/,/${SIGe}/p" $f | grep -q "$SIGe"); then
-                sed -i.bak "/${SIGs}/,/${SIGe}/d" $f
-                echo " done. Original was backed up."
-            else
-                echo " not found, or hook signatures are invalid." 
-            fi
-        else
-            echo -n "Setting up: $f ..."
-            if grep -q "$SIGs" $f ; then
-                echo "Already contains hook."
-                continue
-            fi
-	
-            echo "$HOOK" >> $f || exit 1
-            echo " done."
-        fi
-	done
-}
 
 # Check that xstow is installed, and if not ask to install it
 function checkXstow () {
     STOWER=xstow
 
-    if (which $STOWER >/dev/null); then
+    if which $STOWER >/dev/null; then
         return
     fi
 
@@ -122,6 +62,9 @@ options:
                     not supplied, all components are selected. Use -c list to
                     get a list of available components.
     -h              Show this help
+
+environment variables:
+    INSTALLTARGET   Target installation directory. Defaults to [$INSTALLTARGET]
     
 _EOU_
 }
@@ -154,16 +97,18 @@ function showComponents() {
 ##-
 function install() {
     for c in $@; do
-        case "$c" in
-            bash)
-                # We need to also do the bashrc hook
-                setBashRcHook
-                xstow -v -i README.component -t ~/ $c || exit 1
-                ;;
-            *)
-                # Anything else is just a stow away
-                xstow -v -i README.component -t ~/ $c || exit 1
-        esac
+        # Run any pre-setup scripts
+        if [ -x ${c}/_pre_setup.sh ]; then
+            ${c}/_pre_setup.sh || exit 2
+        fi
+
+        # Stow all files
+        xstow -v -F xstow.ini -t $INSTALLTARGET $c || exit 1
+
+        # Run any post-setup scripts
+        if [ -x ${c}/_post_setup.sh ]; then
+            ${c}/_post_setup.sh || exit 2
+        fi
     done
 }
 
@@ -172,16 +117,18 @@ function install() {
 ##-
 function cleanup() {
     for c in $@; do
-        case "$c" in
-            bash)
-                # We need to also do the bashrc hook
-                setBashRcHook -d
-                xstow -v -D -i README.component -t ~/ $c || exit 1
-                ;;
-            *)
-                # Anything else is just a stow away
-                xstow -v -D -i README.component -t ~/ $c || exit 1
-        esac
+        # Run any pre-remove scripts
+        if [ -x ${c}/_pre_remove.sh ]; then
+            ${c}/_pre_remove.sh || exit 2
+        fi
+
+        # Stow all files
+        xstow -v -D -F xstow.ini -t $INSTALLTARGET $c || exit 1
+
+        # Run any post-remove scripts
+        if [ -x ${c}/_post_remove.sh ]; then
+            ${c}/_post_remove.sh || exit 2
+        fi
     done
 }
 
