@@ -1,0 +1,16 @@
+# List of plugins to install in the vim-pathogen bundle dir.
+# This file is sourced from the _post_setup.sh script and expect a 'plugins'
+# associative array to have been declared with key/values as indicated.
+
+# Declare the associative array
+declare -A plugins
+
+plugins=(
+    # [plugin-name]='https://git-clone/type/url/plugin-name.git'
+    # The plugin-name will be used as the dir to clone the repo into
+    [vim-markdown]='https://github.com/plasticboy/vim-markdown.git'
+    [vim-markdown-toc]='https://github.com/ajorgensen/vim-markdown-toc.git'
+    [vim-openscad]='https://github.com/sirtaj/vim-openscad.git'
+)
+
+# vim: set syntax=sh

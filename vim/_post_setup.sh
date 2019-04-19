@@ -1,22 +1,24 @@
 #!/bin/bash
 #
 # For management of vim plugins, we use pathogen - see _pre_setup.sh
-# This script is run after all vim dotfiles hae been installed and pathogen has
+# This script is run after all vim dotfiles have been installed and pathogen has
 # been set up.
-# The purpose of this script is to install all plugins we list here into the
-# .vim/bundle dir so that they can be installed with pathogen.
+# The purpose of this script is to install all plugins declared in the
+# plugins.txt file, into .vim/bundle dir so that they can be installed with
+# pathogen.
 
 # The following environment variables are inherited from our caller:
 # INSTALLTARGET: The dir to which we are installing. Usually the user's home dir
 # MYDIR: The dir from which the main installer runs. We are usually a sub-dir of this dir.
 
-declare -A plugins
+THISDIR=$(dirname $0)
 
-plugins=(
-    [vim-markdown]='https://github.com/plasticboy/vim-markdown.git'
-    [vim-markdown-toc]='https://github.com/ajorgensen/vim-markdown-toc.git'
-    [vim-openscad]='https://github.com/sirtaj/vim-openscad.git'
-)
+# If there is no plugins.txt file, then we can exit
+PLUGINS=${THISDIR}/plugins.txt
+[ ! -f $PLUGINS ] && echo "No vim plugins list found." && exit 0
+
+# Source the plugins, which will bring in the $plugins array
+source $PLUGINS
 
 # The dir we clone the bundles to
 BUNDLE=${INSTALLTARGET}/.vim/bundle

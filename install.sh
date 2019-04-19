@@ -102,8 +102,14 @@ function install() {
             ${c}/_pre_setup.sh || exit 2
         fi
 
+        # Include any component specific xstow.ini files if present
+        COMPCONF=${c}/xstow.ini
+        echo "COMPCONF = $COMPCONF"
+        [ -f $COMPCONF ] && COMPCONF="-F $COMPCONF" || COMPCONF=""
+        echo "COMPCONF = $COMPCONF"
+
         # Stow all files
-        xstow -v -F xstow.ini -t $INSTALLTARGET $c || exit 1
+        xstow -v $COMPCONF -t $INSTALLTARGET $c || exit 1
 
         # Run any post-setup scripts
         if [ -x ${c}/_post_setup.sh ]; then
@@ -122,8 +128,12 @@ function cleanup() {
             ${c}/_pre_remove.sh || exit 2
         fi
 
+        # Include any component specific xstow.ini files if present
+        COMPCONF=${c}/xstow.ini
+        [ -f $COMPCONF ] && COMPCONF="-F $COMPCONF" || COMPCONF=""
+
         # Stow all files
-        xstow -v -D -F xstow.ini -t $INSTALLTARGET $c || exit 1
+        xstow -v -D $COMPCONF -t $INSTALLTARGET $c || exit 1
 
         # Run any post-remove scripts
         if [ -x ${c}/_post_remove.sh ]; then
