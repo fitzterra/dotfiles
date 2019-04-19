@@ -8,9 +8,11 @@ declare -A plugins
 plugins=(
     # [plugin-name]='https://git-clone/type/url/plugin-name.git'
     # The plugin-name will be used as the dir to clone the repo into
+    [vim-tabular]='git://github.com/godlygeek/tabular.git'
     [vim-markdown]='https://github.com/plasticboy/vim-markdown.git'
     [vim-markdown-toc]='https://github.com/ajorgensen/vim-markdown-toc.git'
     [vim-openscad]='https://github.com/sirtaj/vim-openscad.git'
+    [vimwiki]='https://github.com/vimwiki/vimwiki.git'
 )
 
-# vim: set syntax=sh
+# vim: set syntax=sh:

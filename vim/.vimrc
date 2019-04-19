@@ -9,6 +9,7 @@ syntax on
 colorscheme desert
 
 " Some more things we want...
+set nocompatible        " Required by vim-wiki, nd should be set fairly early on
 set showcmd             " Show (partial) command in status line.
 set showmatch           " Show matching brackets.
 set ignorecase          " Do case insensitive matching
@@ -24,6 +25,7 @@ set autoindent			" Copy indents from current line when starting a new line
 set smartindent			" Set smart indenting on
 set modeline			" Allow support for modelines in files
 set hlsearch			" Highlight search results
+set conceallevel=2      " Specifically in markdown, conceals the markup around text
 
 
 " Make folding available but leave it manual unless overridden by a syntax file
@@ -64,9 +66,10 @@ endif
 
 " Setup pathogen for installing plugins in ~/.vim/bundle
 execute pathogen#infect()
+execute pathogen#helptags()
 
 " Source the vimwiki configuration file if available
-if filereadable($HOME . "/vimwiki/.vimwiki.rc")
-  source $HOME/vimwiki/.vimwiki.rc
+if filereadable($HOME . "/.vim/vimwikirc")
+  source $HOME/.vim/vimwikirc
 endif
 

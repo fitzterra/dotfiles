@@ -104,9 +104,7 @@ function install() {
 
         # Include any component specific xstow.ini files if present
         COMPCONF=${c}/xstow.ini
-        echo "COMPCONF = $COMPCONF"
         [ -f $COMPCONF ] && COMPCONF="-F $COMPCONF" || COMPCONF=""
-        echo "COMPCONF = $COMPCONF"
 
         # Stow all files
         xstow -v $COMPCONF -t $INSTALLTARGET $c || exit 1

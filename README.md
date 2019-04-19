@@ -5,7 +5,7 @@ This is my dotfiles repo. I think I should have done this a long time ago :-)
 
 Some really good resource: https://github.com/webpro/awesome-dotfiles
 
-This will fianlly replace my easyEnv project started years ago: https://github.com/fitzterra/easyEnv
+This will finally replace my easyEnv project started years ago: https://github.com/fitzterra/easyEnv
 
 Assumptions
 -----------
@@ -31,3 +31,24 @@ Still a work in progress, but make sure `xstow` is installed, then run the
 `install.sh` script to install/update all dot files.
 
 Also try `-h` to see more install options.
+
+Components
+----------
+
+Dotfiles and their supporting files, etc. are organized in components.
+
+Components:
+* Can be installed/removed individually
+* Each have their own directory
+* Have a `README.component` file in the component directory giving a short
+  description of what this component does. This text is used when listing
+  components on the command line (`-c list` option).
+* Have their own dotfiles and dir structures in the component directory
+* May have any one of the following install/uninstall scripts:
+    - `_pre_setup.sh` - always called before installing/re-installing the component
+    - `_post_setup.sh` - always called after install/re-install
+    - `_pre_remove.sh` - called before removing the component
+    - `_post_remove.sh` - called after removing the component
+* Could have it's own `xstow.ini` file to configure dot file installation
+  specifically for the component.
+
