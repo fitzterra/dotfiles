@@ -27,10 +27,12 @@ set modeline			" Allow support for modelines in files
 set hlsearch			" Highlight search results
 set conceallevel=2      " Specifically in markdown, conceals the markup around text
 
-
 " Make folding available but leave it manual unless overridden by a syntax file
 set foldmethod=manual
 set foldcolumn=3
+
+" In GUI mode, the toolbar wastes more space than being useful. Remove it
+set guioptions-=T
 
 " Make Ctrl-S save command in both normal mode and insert mode
 map <C-S> :w<CR>

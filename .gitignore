@@ -1,2 +1,4 @@
 # Vim swap files
 .*.sw*
+# The vim directory settings file to auto commit/push wiki changes
+.vimdir
