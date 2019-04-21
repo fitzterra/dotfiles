@@ -13,6 +13,7 @@ plugins=(
     [vim-markdown-toc]='https://github.com/ajorgensen/vim-markdown-toc.git'
     [vim-openscad]='https://github.com/sirtaj/vim-openscad.git'
     [vimwiki]='https://github.com/vimwiki/vimwiki.git'
+    [vimwiki-git]='https://github.com/fitzterra/vimwiki-git.git'
     # Allows vim settings per dir/subdir. usefull for auto commit/push vimwiki
     # changes. See https://opensource.com/article/18/6/vimwiki-gitlab-notes
     [dirsettings]='https://github.com/chazy/dirsettings.git'
