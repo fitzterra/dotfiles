@@ -70,8 +70,3 @@ endif
 execute pathogen#infect()
 execute pathogen#helptags()
 
-" Source the vimwiki configuration file if available
-if filereadable($HOME . "/.vim/vimwikirc")
-  source $HOME/.vim/vimwikirc
-endif
-

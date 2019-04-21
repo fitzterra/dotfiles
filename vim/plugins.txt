@@ -17,6 +17,7 @@ plugins=(
     # Allows vim settings per dir/subdir. usefull for auto commit/push vimwiki
     # changes. See https://opensource.com/article/18/6/vimwiki-gitlab-notes
     [dirsettings]='https://github.com/chazy/dirsettings.git'
+    [vim-airline]='https://github.com/vim-airline/vim-airline'
 )
 
 # vim: set syntax=sh:

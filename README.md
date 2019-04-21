@@ -1,6 +1,15 @@
 Dotfiles
 ========
 
+**Contents**
+
+1. [Assumptions](#assumptions)
+2. [Usage](#usage)
+3. [Components](#components)
+	1. [bash](#bash)
+	2. [vim](#vim)
+		1. [airline](#airline)
+
 This is my dotfiles repo. I think I should have done this a long time ago :-)
 
 Some really good resource: https://github.com/webpro/awesome-dotfiles
@@ -52,3 +61,14 @@ Components:
 * Could have it's own `xstow.ini` file to configure dot file installation
   specifically for the component.
 
+
+### bash
+
+### vim
+
+#### airline
+To get the nice arrows in the status line, install the `fonts-powerline` package:
+
+    $ sudo aptitude install fonts-powerline
+
+See [here][https://github.com/vim-airline/vim-airline/wiki/Dummies-Guide-to-the-status-bar-symbols-(Powerline-fonts)-on-Fedora,-Ubuntu-and-Windows] for help.
