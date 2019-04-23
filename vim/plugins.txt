@@ -19,6 +19,8 @@ plugins=(
     [dirsettings]='https://github.com/chazy/dirsettings.git'
     [vim-airline]='https://github.com/vim-airline/vim-airline'
     [vim-fugitive]='https://github.com/tpope/vim-fugitive.git'
+    [vim-arduino-syntax]='https://github.com/sudar/vim-arduino-syntax.git'
+    [ale]='https://github.com/w0rp/ale.git'
 )
 
 # vim: set syntax=sh:

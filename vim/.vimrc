@@ -43,12 +43,8 @@ map <C-Tab> :tabnext<CR>
 imap <C-Tab> <Esc>:tabnext<CR>
 map <C-S-Tab> :tabprevious<CR>
 imap <C-S-Tab> <Esc>:tabprevious<CR>
-" Ctrl-N opens a new tab with the file editor in the current dir in both
+" Ctrl-T opens a new tab with the file editor in the current dir in both
 " normal and insert modes
-" NOTE: We are slowly changing this to use Ctrl-T instead of Ctrl-N to be
-" more compliant with the latest tabbed windows keys.
-map <C-N> :tabnew .<CR>
-imap <C-N> <Esc>:tabnew .<CR>
 map <C-T> :tabnew .<CR>
 imap <C-T> <Esc>:tabnew .<CR>
 " Allow moving tabs left and right with Ctrl-Shift-Left/Right arrow
