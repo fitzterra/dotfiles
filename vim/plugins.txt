@@ -21,6 +21,8 @@ plugins=(
     [vim-fugitive]='https://github.com/tpope/vim-fugitive.git'
     [vim-arduino-syntax]='https://github.com/sudar/vim-arduino-syntax.git'
     [ale]='https://github.com/w0rp/ale.git'
+    [simpylfold]='https://github.com/tmhedberg/SimpylFold.git'
+    [supertab]='https://github.com/ervandew/supertab.git'
 )
 
 # vim: set syntax=sh:

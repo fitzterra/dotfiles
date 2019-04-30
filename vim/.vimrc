@@ -66,3 +66,40 @@ endif
 execute pathogen#infect()
 execute pathogen#helptags()
 
+
+
+"""""""""
+" These must go into seperate vim config files, since they are either language
+" dependant or for specific types of work. Just do not have time to decide
+" where to put them right now....
+
+" Insert a Python debug trace line at the current cursor position. This should
+" really only be valid when in a Python file
+" Key combo is <ALT-SHIFT-d>
+map <A-D> <Esc>Oimport ipdb; ipdb.set_trace()<Esc>
+
+" Remove the search highlight when pressing escape in normal mode
+" From here: https://vi.stackexchange.com/a/5392
+"nnoremap <Esc> :nohlsearch<return><Esc>
+
+" Pretty format XML by pressing = on a selection
+" Adaption from http://vim.wikia.com/wiki/Pretty-formatting_XML option 2
+vnoremap = :!python -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"<CR>
+
+" Spacebar toggels a fold open/close
+nnoremap <space> za
+
+" Auto open the quickfix/location window after :make, :grep, :lvimgrep and
+" friends if there are valid locations/errors.
+" From here: https://stackoverflow.com/a/39010855/10769035
+augroup myvimrc
+    autocmd!
+    autocmd QuickFixCmdPost [^l]* cwindow
+    autocmd QuickFixCmdPost l*    lwindow
+augroup END
+
+" Let F4 search for the word under the cursor in the current and child dirs,
+" in the same type of files as being edited.
+" Based on: http://vim.wikia.com/wiki/Find_in_files_within_Vim
+map <F4> :execute "vimgrep /" . expand("<cword>") . "/j **/*." . expand("%:e") <Bar> cw<CR>
+
