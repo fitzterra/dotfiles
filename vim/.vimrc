@@ -66,21 +66,9 @@ endif
 execute pathogen#infect()
 execute pathogen#helptags()
 
-
-
-"""""""""
-" These must go into seperate vim config files, since they are either language
-" dependant or for specific types of work. Just do not have time to decide
-" where to put them right now....
-
-" Insert a Python debug trace line at the current cursor position. This should
-" really only be valid when in a Python file
-" Key combo is <ALT-SHIFT-d>
-map <A-D> <Esc>Oimport ipdb; ipdb.set_trace()<Esc>
-
-" Remove the search highlight when pressing escape in normal mode
-" From here: https://vi.stackexchange.com/a/5392
-"nnoremap <Esc> :nohlsearch<return><Esc>
+">>>>>>>>>>>>> General <<<<<<<<<<<<<<"
+" Toggle search highlighting with <CTRL-SHIFT-?>
+nnoremap <C-?> :set hlsearch!<CR>
 
 " Pretty format XML by pressing = on a selection
 " Adaption from http://vim.wikia.com/wiki/Pretty-formatting_XML option 2
@@ -98,8 +86,28 @@ augroup myvimrc
     autocmd QuickFixCmdPost l*    lwindow
 augroup END
 
+" Set vim.ack to use the faster `ag` instead of `ack` - this needs the
+" silversearcher-ag package to be installed
+let g:ackprg = 'ag --vimgrep'
+
 " Let F4 search for the word under the cursor in the current and child dirs,
 " in the same type of files as being edited.
 " Based on: http://vim.wikia.com/wiki/Find_in_files_within_Vim
-map <F4> :execute "vimgrep /" . expand("<cword>") . "/j **/*." . expand("%:e") <Bar> cw<CR>
+"map <F4> :execute "vimgrep /" . expand("<cword>") . "/j **/*." . expand("%:e") <Bar> cw<CR>
+" Instead of vim grep, use ack.vim and so `ag` for much faster searches
+map <F4> :execute "Ack! " . expand("<cword>") <CR>
+
+
+">>>>>>>>>>>>> Python Files <<<<<<<<<<<<<<"
+" Insert a Python debug trace line at the current cursor position.
+" Key combo is <ALT-SHIFT-d>
+autocmd FileType python nnoremap <buffer> <A-D> <Esc>Oimport ipdb; ipdb.set_trace()<Esc>
+autocmd FileType python set foldmethod=indent
+
+">>>>>>>>>>>>> Dot/Graphviz Files <<<<<<<<<<<<<<"
+" Compile the current graph. This requires the vim graphviz plugin from
+" https://github.com/liuchengxu/graphviz.vim to be installed.
+" A good workflow is to compile the graph, then open it in a PDF viewer next
+" to the vim window. Whenever you compile it will be update in the pdf viewer
+autocmd FileType dot nnoremap <buffer> <F9> :w<CR>:GraphvizCompile dot pdf<CR>
 
