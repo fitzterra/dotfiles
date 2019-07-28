@@ -1,0 +1,24 @@
+[user]
+    name = fitzterra
+    email = github_subs@icave.net
+[credential]
+    helper = cache --timeout=3600
+[github]
+    user = fitzterra
+[alias]
+    civ = commit -v
+    gr = log --graph --full-history --all --color --pretty=tformat:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m"
+    st = status
+    br = branch -va
+    logo = log --oneline
+    co = checkout
+    gvimdiff = difftool --tool=gvimdiff --no-prompt HEAD
+    d = difftool
+[push]
+    default = simple
+[core]
+    excludesfile = /home/tomc/.gitignore-global
+[diff]
+    tool = gvimdiff
+[difftool]
+    prompt = false
