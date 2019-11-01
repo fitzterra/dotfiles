@@ -31,6 +31,9 @@ set tw=79               " Limit lines to 79 chars long by default
 " Make folding available but leave it manual unless overridden by a syntax file
 set foldmethod=manual
 set foldcolumn=3
+" This is when syntax highlighting gets screwed up with folding large files.
+" Fix it with Shift-u     See: https://vi.stackexchange.com/a/2174 
+nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 
 " In GUI mode, the toolbar wastes more space than being useful. Remove it
 set guioptions-=T
