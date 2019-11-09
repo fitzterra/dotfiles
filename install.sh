@@ -222,6 +222,11 @@ function setPrompt() {
         [ -z "$ans" ] && break
     done
 
+    # The \[ and \] symbols allow bash to understand which parts of the
+    # prompt cause no cursor movement; without them, lines will wrap
+    # incorrectly. See: https://mywiki.wooledge.org/BashFAQ/037
+    [ -n "$pcol" ] && pcol="\[${pcol}\]" && cOff="\[${cOff}\]"
+
     cat > system/etc/host_prompt_colors << __EOF__
 # Host prompt set using: 'install.sh prompt' from dotfiles repo
 prompt: ${pcol}\h${cOff}
