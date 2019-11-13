@@ -1,0 +1,11 @@
+# function to set the tmux pane title
+# Usage: pane_title "My title"
+function pane_title() {
+    if [ $# -ge 1 ]; then
+        printf "\033]2;$*\033\\"
+    else
+        echo "Please supply the pane title as argument(s)"
+    fi
+}
+
+export -f pane_title
