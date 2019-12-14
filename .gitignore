@@ -2,3 +2,5 @@
 .*.sw*
 # The vim directory settings file to auto commit/push wiki changes
 .vimdir
+# The net-rw history file that gets created due to the symlink to vimrc
+vim/.vim/.netrwhist
