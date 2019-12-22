@@ -1,0 +1,2 @@
+# Sets up direnv if it is installed
+$(which direnv > /dev/null) && eval "$(direnv hook bash)"
