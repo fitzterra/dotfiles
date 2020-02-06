@@ -9,8 +9,7 @@
 # the home dir.
 
 # Only if weare enabled
-if [[ -f "~/._ssh_auto_tmux" ]]; then
-
+if [[ -f ~/._ssh_auto_tmux ]]; then
     # If this is an interactive shell ($- == *i*) and no tmux session is
     # currently running (env var TMUX is not set), and the connection is via
     # SSH, try to attach to the previous tmux session with the name 'ssh_tmux',
