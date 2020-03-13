@@ -70,6 +70,10 @@ endif
 execute pathogen#infect()
 execute pathogen#helptags()
 
+">>>>>>>>>>>>> NetRW Settings <<<<<<<<<<<<<<"
+" Set the tree listing style from file browsing
+let g:netrw_liststyle= 3
+
 ">>>>>>>>>>>>> General <<<<<<<<<<<<<<"
 " Toggle search highlighting with <CTRL-SHIFT-?>
 nnoremap <C-?> :set hlsearch!<CR>

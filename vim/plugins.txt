@@ -24,6 +24,8 @@ plugins=(
     [supertab]='https://github.com/ervandew/supertab.git'
     [ack-vim]='https://github.com/mileszs/ack.vim.git'
     [graphviz-vim]='https://github.com/liuchengxu/graphviz.vim.git'
+    # Get the sum of a visual selection of numbers
+    [vissum-vim]='https://github.com/elazar/visSum.vim'
 )
 
 # vim: set syntax=sh:
