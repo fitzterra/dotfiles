@@ -75,8 +75,8 @@ execute pathogen#helptags()
 let g:netrw_liststyle= 3
 
 ">>>>>>>>>>>>> General <<<<<<<<<<<<<<"
-" Toggle search highlighting with <CTRL-SHIFT-?>
-nnoremap <C-?> :set hlsearch!<CR>
+" Clear search highlighting with escape
+nnoremap <esc> :noh<return><esc>
 
 " Pretty format XML by pressing = on a selection
 " Adaption from http://vim.wikia.com/wiki/Pretty-formatting_XML option 2
