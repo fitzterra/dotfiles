@@ -26,6 +26,7 @@ plugins=(
     [graphviz-vim]='https://github.com/liuchengxu/graphviz.vim.git'
     # Get the sum of a visual selection of numbers
     [vissum-vim]='https://github.com/elazar/visSum.vim'
+    [vim-gitgutter]='https://github.com/airblade/vim-gitgutter'
 )
 
 # vim: set syntax=sh:
