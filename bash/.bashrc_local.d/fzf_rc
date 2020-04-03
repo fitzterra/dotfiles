@@ -1,0 +1,5 @@
+# Add the terminal keybindings if fzf is installed via the Debian package
+# manager. See /usr/share/doc/fzf/README.Debian
+if [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
+    source /usr/share/doc/fzf/examples/key-bindings.bash
+fi
