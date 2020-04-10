@@ -1,6 +1,14 @@
 # List of plugins to install in the vim-pathogen bundle dir.
 # This file is sourced from the _post_setup.sh script and expect a 'plugins'
 # associative array to have been declared with key/values as indicated.
+#
+# This list is version controlled and installed for all systems.
+# To have plugins for a local system only, create a file called
+# `plugins_local.txt' in the same directory as this file.
+# This file can be then be used to define plugins for the local system only,
+# and is not version controlled.
+# See below for a template for `plugins_local.txt`
+
 
 # Declare the associative array
 declare -A plugins
@@ -31,5 +39,46 @@ plugins=(
     # system. Also see dotfiles/vim/.vim/plugin/fzf.vim
     [fzf-vim]='https://github.com/junegunn/fzf.vim'
 )
+
+# Include any system local plugins found. We will source the
+# 'plugins_local.txt` file in the same dir this file is located in. The local
+# plugins file should look like this:
+#
+#----------8<--------8<----------
+#declare -A plugins_local
+#
+#plugins_local=(
+#   [plugin-name]='https://path/to/git/location.git'
+#   [plugin-name]='https://path/to/git/location.git'
+#   ...
+#)
+#
+# vim: set syntax=sh:
+#----------8<--------8<----------
+
+# Since this file will be sourced, we can not use $0 to determine our path, but
+# we can use $BASH_SOURCE. See bash manpage and also:
+# https://unix.stackexchange.com/a/4653
+MYDIR=$(dirname $BASH_SOURCE)
+LOCFILE="${MYDIR}/plugins_local.txt"
+if [ -f "$LOCFILE" ]; then
+    # Source it
+    source "$LOCFILE"
+    # We assume plugins_local exists, so we stringify it
+    p_loc="$(declare -p plugins_local)"
+    # ... then strip of the declare bit
+    p_loc=${p_loc#*=(}
+    # ... and everything after the last double quote, replacing the quote again
+    p_loc=${p_loc%\"*}\"
+    echo "Plugins local: ${p_loc}"
+    # To combine 2 associative array, we need to nou also stringify plugins
+    plugins="$(declare -p plugins)"
+    # ... then strip of the declare bit
+    plugins=${plugins#*=(}
+    # ... and everything after the last double quote, replacing the quote again
+    plugins=${plugins%\"*}\"
+    # Then recreate the plugins array via eval
+    eval "plugins=( $plugins $p_loc )"
+fi
 
 # vim: set syntax=sh:
