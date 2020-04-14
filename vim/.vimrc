@@ -111,6 +111,8 @@ map <F4> :execute "Ack! " . expand("<cword>") <CR>
 " Key combo is <ALT-SHIFT-d>
 autocmd FileType python nnoremap <buffer> <A-D> <Esc>Oimport ipdb; ipdb.set_trace()<Esc>
 autocmd FileType python set foldmethod=indent
+" Open an ipython shell in a terminal when hitting \ip in normal more
+autocmd FileType python nnoremap <Leader>ip :term ++close ipython<CR>
 
 ">>>>>>>>>>>>> Dot/Graphviz Files <<<<<<<<<<<<<<"
 " Compile the current graph. This requires the vim graphviz plugin from
