@@ -75,8 +75,15 @@ execute pathogen#helptags()
 let g:netrw_liststyle= 3
 
 ">>>>>>>>>>>>> General <<<<<<<<<<<<<<"
-" Clear search highlighting with escape
-nnoremap <esc> :noh<return><esc>
+" Clear search highlighting with escape.
+" This works fine in gvim
+if has('gui_running')
+    nnoremap <esc> :noh<CR><ESC>
+else
+    " This work in terminal vim - CTRL + /  (not sure why it has to be mapped
+    " as <C-_> ...
+    nnoremap <C-_> :noh<CR>
+endif
 
 " Pretty format XML by pressing = on a selection
 " Adaption from http://vim.wikia.com/wiki/Pretty-formatting_XML option 2
