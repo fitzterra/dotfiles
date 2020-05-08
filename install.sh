@@ -210,8 +210,8 @@ function setPrompt() {
         system/colors.sh
         prompt="[${USER}@${pcol}$(hostname)${cOff}:$(basename $(pwd))]$"
         echo -en "${prompt} "
-        read -p "Foregound color (enter for none): " fgc
         read -p "Background color (enter for none): " bgc
+        read -p "Foregound color (enter for none): " fgc
 
         [ -z "$fgc" ] && pcol="" || pcol="${fgpt}${fgc}m"
         [ -z "$bgc" ] && pcol="${pcol}" || pcol="${pcol}${bgpt}${bgc}m"
