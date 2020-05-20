@@ -314,7 +314,7 @@ bind-key - split-window -v
 # w=8; wc=0
 # for i in {0..255}; do
 #   printf "\x1b[38;5;${i}mcolour%-3s\x1b[0m" "$i"; wc=$((wc+1));
-#   if [ $wc -lt $w ]; then printf " | "; else printf "\n"; wc=0 fi;
+#   if [ $wc -lt $w ]; then printf " | "; else printf "\n"; wc=0; fi;
 # done
 
 # Higlight the active pane
