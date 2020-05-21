@@ -120,6 +120,9 @@ autocmd FileType python nnoremap <buffer> <A-D> <Esc>Oimport ipdb; ipdb.set_trac
 autocmd FileType python set foldmethod=indent
 " Open an ipython shell in a terminal when hitting \ip in normal more
 autocmd FileType python nnoremap <Leader>ip :term ++close ipython<CR>
+" Rebuild the tags file - this is not Python specific, but we leave it here for
+" now.
+nnoremap <Leader>bt :!ctags -R .<CR>
 
 ">>>>>>>>>>>>> Dot/Graphviz Files <<<<<<<<<<<<<<"
 " Compile the current graph. This requires the vim graphviz plugin from
