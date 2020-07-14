@@ -6,3 +6,5 @@
 vim/.vim/.netrwhist
 
 vim/plugins_local.txt
+# Vim locally created dictionaries
+vim/.vim/spell
