@@ -1,0 +1,7 @@
+# Add platformio python virtual env bin dir to the path if it is found.
+# This is if it was installed using the install script from:
+# https://docs.platformio.org/en/latest/core/installation.html#installer-script
+PIO_VENV_BIN=~/.platformio/penv/bin
+if [ -d $PIO_VENV_BIN ]; then
+    export PATH=${PATH}:${PIO_VENV_BIN}
+fi
