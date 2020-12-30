@@ -78,6 +78,9 @@ For tmux config we use the [Oh My Tmux] configuration repo as a start for
 configuring tmux. This is a git submodule inside the main repo, so after
 cloning, this sub module should be updated with:
 
-`$ git submodule update --remote --recursive`
+`$ git submodule update --init --recursive`
+
+or the `--recursive` flag could be added to the `git clone --recursive` command
+to do this all during cloning.
 
 [Oh My Tmux]: https://github.com/gpakosz/.tmux 
