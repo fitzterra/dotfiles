@@ -72,3 +72,12 @@ To get the nice arrows in the status line, install the `fonts-powerline` package
     $ sudo aptitude install fonts-powerline
 
 See [here][https://github.com/vim-airline/vim-airline/wiki/Dummies-Guide-to-the-status-bar-symbols-(Powerline-fonts)-on-Fedora,-Ubuntu-and-Windows] for help.
+
+### tmux
+For tmux config we use the [Oh My Tmux] configuration repo as a start for
+configuring tmux. This is a git submodule inside the main repo, so after
+cloning, this sub module should be updated with:
+
+`$ git submodule update --remote --recursive`
+
+[Oh My Tmux]: https://github.com/gpakosz/.tmux 
