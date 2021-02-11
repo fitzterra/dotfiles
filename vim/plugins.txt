@@ -38,6 +38,8 @@ plugins=(
     # The second part of getting fzf functionality in Vim on a Debian based
     # system. Also see dotfiles/vim/.vim/plugin/fzf.vim
     [fzf-vim]='https://github.com/junegunn/fzf.vim'
+    # Search the web from vim
+    [vim-browser-search]='https://github.com/voldikss/vim-browser-search.git'
 )
 
 # Include any system local plugins found. We will source the
