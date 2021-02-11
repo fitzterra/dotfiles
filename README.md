@@ -74,13 +74,28 @@ To get the nice arrows in the status line, install the `fonts-powerline` package
 See [here][https://github.com/vim-airline/vim-airline/wiki/Dummies-Guide-to-the-status-bar-symbols-(Powerline-fonts)-on-Fedora,-Ubuntu-and-Windows] for help.
 
 ### tmux
-For tmux config we use the [Oh My Tmux] configuration repo as a start for
-configuring tmux. This is a git submodule inside the main repo, so after
-cloning, this sub module should be updated with:
+For tmux, we use the [Oh My Tmux] repo as base for setup and config of a very
+nice tmux environment.
 
-`$ git submodule update --init --recursive`
+This tmux repo is installed as a git submodule. To setup this the `ohmtmux`
+submodule a fresh clone of this repo, do:
+`$ git submodule init`
+`$ git submodule update`
 
-or the `--recursive` flag could be added to the `git clone --recursive` command
-to do this all during cloning.
+Anothger way to do this when cloning this repo is to pass the
+`--recurse-summodules` arg to the clone command. This will automatically
+initialize and update all submodules.
+
+The OhMyTmux installation has a default `.tmux.conf` in the repo which we
+create a symlink to in the `tmux` subdir of this repo. This is the base tmux
+config for OhMyTmux, and we create a symlink to it in the `tmux` subdir of this
+repo.
+We also have a `tmux.conf.local` config file in the `tmux` subdir. These are
+our local tmux modifications on top of OhMYTmux.
+At installtion of the dotfiles, symlinks in the home dir will be created to
+both the `.tmux.conf` and `.tmux.conf.local` config files.
+The default `~/.tmux.conf` file will try source the `~/.tmux.conf.local` file
+if it exists, and this is how we set up the base OhMyTux with our own tmux
+config changes.
 
 [Oh My Tmux]: https://github.com/gpakosz/.tmux 
