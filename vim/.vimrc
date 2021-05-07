@@ -91,6 +91,8 @@ vnoremap = :!python -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse
 
 " Spacebar toggels a fold open/close
 nnoremap <space> za
+" Shift-Spacebar toggels a fold open/close recursively
+nnoremap <S-space> zA
 
 " Auto open the quickfix/location window after :make, :grep, :lvimgrep and
 " friends if there are valid locations/errors.
