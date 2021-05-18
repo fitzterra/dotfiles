@@ -84,6 +84,8 @@ else
     " as <C-_> ...
     nnoremap <C-_> :noh<CR>
 endif
+" Always enable spell
+set spell
 
 " Pretty format XML by pressing = on a selection
 " Adaption from http://vim.wikia.com/wiki/Pretty-formatting_XML option 2
