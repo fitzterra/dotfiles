@@ -29,3 +29,8 @@ if [ -a ~/.bashrc_local.d ]; then
         source $f
     done
 fi
+
+# This for code reviews, and sets the branch into which we will be merging the
+# code being reviewed. See the comments in the git aliases we have set up for
+# code review.
+export REVIEW_BASE=master
