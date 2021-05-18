@@ -14,3 +14,7 @@ if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 let g:airline_symbols.space = "\u3000"
+
+" Show a list of all buffers at the top, but only the file name
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#fnamemod = ':t'
