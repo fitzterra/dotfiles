@@ -3,3 +3,6 @@
 
 # Tags files
 tags
+
+# Pyhton pyenv version files
+.python-version*
