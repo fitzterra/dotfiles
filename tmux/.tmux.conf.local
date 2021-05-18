@@ -325,3 +325,20 @@ set -g window-active-style 'fg=colour250,bg=black'
 # Settings for the pane title - the pane title can be changed with something
 # like: printf '\033]2;My Title\033\\'
 set -g pane-border-status bottom
+
+# Tmux plugin manager settings
+# https://github.com/tmux-plugins/tpm
+# List of plugins
+#set -g @plugin 'tmux-plugins/tpm'
+#set -g @plugin 'tmux-plugins/tmux-sensible'
+# Since we are based on OhMyTmux, we use a different file than the default tmux
+# config, so we need to set things up slightly differently. See:
+# https://github.com/tmux-plugins/tpm/blob/master/docs/tpm_not_working.md
+# - the second point about using a different tmux config file
+set -g @tpm_plugins '          \
+   tmux-plugins/tpm             \
+   tmux-plugins/tmux-sensible   \
+   tmux-plugins/tmux-resurrect   \
+ '
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
