@@ -114,7 +114,9 @@ let g:ackprg = 'ag --vimgrep'
 " Based on: http://vim.wikia.com/wiki/Find_in_files_within_Vim
 "map <F4> :execute "vimgrep /" . expand("<cword>") . "/j **/*." . expand("%:e") <Bar> cw<CR>
 " Instead of vim grep, use ack.vim and so `ag` for much faster searches
-map <F4> :execute "Ack! " . expand("<cword>") <CR>
+"map <F4> :execute "Ack! " . expand("<cword>") <CR>
+" Make it even better by using Ag from fzf.vim to use fzf for the result
+map <F4> :execute "Ag " . expand("<cword>") <CR>
 
 " Function to strip trailing whitespace from files, usually on save, preserving
 " the current cursor localtion in doing so.
@@ -125,7 +127,7 @@ fun! <SID>StripTrailingWhitespaces()
     keepp %s/\s\+$//e
     call cursor(l, c)
 endfun
-autocmd FileType c,cpp,python,bash,sh autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+"autocmd FileType c,cpp,python,bash,sh autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 ">>>>>>>>>>>>> Python Files <<<<<<<<<<<<<<"
 " Insert a Python debug trace line at the current cursor position.
