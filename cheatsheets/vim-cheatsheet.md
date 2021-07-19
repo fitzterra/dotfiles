@@ -28,3 +28,9 @@ External cheatsheets (open with `gx`):
 
     * Reselect last visual block: `gv`
     * Enter visual mode fro insert mode: `C-o v` or `C-o V` or `C-o C-v`
+
+* Sum numbers in highlighted block:  
+    Made available via the `vissum` plugin:
+    * Highlight a block of text and calculate the sum of the first numbers
+        found in each line by pressing <Leader>su (\su). The sum is displayed
+        in the status line
