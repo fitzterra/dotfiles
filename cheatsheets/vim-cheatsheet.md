@@ -34,3 +34,9 @@ External cheatsheets (open with `gx`):
     * Highlight a block of text and calculate the sum of the first numbers
         found in each line by pressing <Leader>su (\su). The sum is displayed
         in the status line
+
+* Insert full path of current file at cursor position while in insert mode:
+    `C-r%`
+
+    Also see: https://vim.fandom.com/wiki/Insert_current_filename
+
