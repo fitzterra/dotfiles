@@ -27,7 +27,7 @@ External cheatsheets (open with `gx`):
     Some nice things here: https://dev.to/iggredible/mastering-visual-mode-in-vim-15pl
 
     * Reselect last visual block: `gv`
-    * Enter visual mode fro insert mode: `C-o v` or `C-o V` or `C-o C-v`
+    * Enter visual mode from insert mode: `C-o v` or `C-o V` or `C-o C-v`
 
 * Sum numbers in highlighted block:  
     Made available via the `vissum` plugin:
@@ -40,3 +40,11 @@ External cheatsheets (open with `gx`):
 
     Also see: https://vim.fandom.com/wiki/Insert_current_filename
 
+* Center text within visual selection:
+    Provided by `plugin/center-visual-test.vim`
+
+    This is helpful when aligning text in columns for example.
+    * Select the area in which to center the text.
+    * All text in the selection will be centered, but this is only for a
+        selection on a single line, not a block
+    * Hit `C-^`
