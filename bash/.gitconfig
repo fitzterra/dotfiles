@@ -41,3 +41,5 @@
     tool = gvimdiff
 [difftool]
     prompt = false
+[commit]
+	verbose = True
