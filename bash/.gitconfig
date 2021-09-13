@@ -4,15 +4,16 @@
 [credential]
 	helper = cache --timeout=3600
 [alias]
-    civ = commit -v
+	civ = commit -v
     gr = log --graph --full-history --all --color --pretty=tformat:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m"
     st = status
-    br = branch -va
     logo = log --oneline
+    br = branch -v
     co = checkout
     ci = commit
     gvimdiff = difftool --tool=gvimdiff --no-prompt HEAD
     d = difftool
+    rem = remote
 
     # From here: https://blog.jez.io/cli-code-review/
     #
@@ -34,11 +35,13 @@
     # git reviewone foo.js bar.js
     reviewone = !gvim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 [push]
-    default = simple
+	default = simple
 [core]
-    excludesfile = /home/tomc/.gitignore-global
+	excludesfile = ~/.gitignore-global
+[github]
+	user = fitzterra
 [diff]
-    tool = gvimdiff
+	tool = vimdiff
 [difftool]
     prompt = false
 [commit]
