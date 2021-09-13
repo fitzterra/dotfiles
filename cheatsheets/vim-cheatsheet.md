@@ -48,3 +48,10 @@ External cheatsheets (open with `gx`):
     * All text in the selection will be centered, but this is only for a
         selection on a single line, not a block
     * Hit `C-^`
+
+* Delete lines matching a regex:  
+    See here for more: https://tech.serhatteker.com/post/2019-09/vim-delete-all-lines-with-regex/  
+    Using the `ex` command `:g`, is very useful for acting on lines that match a pattern.  
+    * Delete all lines that contain a regex: `:g/<regex>/d`
+    * Invert delete: `:g!/<regex>/d`
+    * Delete all empty lines (whitespace only considered empty line): `:g/^\s*$/d`
