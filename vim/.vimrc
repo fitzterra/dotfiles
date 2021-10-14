@@ -175,6 +175,8 @@ autocmd FileType python nnoremap <buffer> <A-D> <Esc>Oimport ipdb; ipdb.set_trac
 autocmd FileType python set foldmethod=indent
 " Open an ipython shell in a terminal when hitting \ip in normal more
 autocmd FileType python nnoremap <Leader>ip :term ++close ipython<CR>
+" Save and run the current python file with F5. See: https://stackoverflow.com/a/18948530
+autocmd FileType python map <buffer> <F5> :w<CR>:exec '!/usr/bin/env python' shellescape(@%, 1)<CR>
 " Rebuild the tags file - this is not Python specific, but we leave it here for
 " now.
 nnoremap <Leader>bt :!ctags -R .<CR>
