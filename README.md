@@ -2,13 +2,13 @@ Dotfiles
 ========
 
 **Contents**
-
 1. [Assumptions](#assumptions)
 2. [Usage](#usage)
 3. [Components](#components)
 	1. [bash](#bash)
 	2. [vim](#vim)
 		1. [airline](#airline)
+	3. [tmux](#tmux)
 
 This is my dotfiles repo. I think I should have done this a long time ago :-)
 
