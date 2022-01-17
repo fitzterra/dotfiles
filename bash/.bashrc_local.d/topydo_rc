@@ -1,0 +1,6 @@
+# Setup for topydo.py: https://github.com/topydo/topydo
+
+# Only setup if topydo is in the path
+if $(which topydo &>/dev/null); then
+    alias td='topydo'
+fi
