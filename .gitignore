@@ -8,3 +8,6 @@ vim/.vim/.netrwhist
 vim/plugins_local.txt
 # Vim locally created dictionaries
 vim/.vim/spell
+
+# All the tmux plugins
+tmux/.tmux/*
