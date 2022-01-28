@@ -19,6 +19,25 @@ export INSTALLTARGET=${INSTALLTARGET:=~/}
 # README.component files in their respective dirs.
 declare -A COMPS
 
+# Determine the package installer to support both Debian based systems as well
+# as MacOS. This is very crude in that we first check if apt-get is available,
+# and if not, we check for brew. Whichever was found is the default installer.
+PKG_INSTALLER=
+PKG_INSTALLER_OPTS="install"
+for i in apt-get brews; do
+    if $(which $i &>/dev/null); then
+        PKG_INSTALLER=$i
+        if [[ $i = "apt-get" ]]; then
+            # Apt-get needs to be run as root
+            PKG_INSTALLER="sudo $i"
+            # We always for yes for apt installs
+            PKG_INSTALLER_OPTS="-y $PK_INSTALLER_OPTS"
+        fi
+    fi
+done
+[[ -z $PKG_INSTALLER ]] && echo "Could not find a package installer.  Exiting..." && exit 1
+
+echo "Package installer: $PKG_INSTALLER"
 ##~~ Functions ~~##
 
 # Check that xstow is installed, and if not ask to install it
