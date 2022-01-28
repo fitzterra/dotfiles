@@ -1,11 +1,14 @@
-#/bin/bash
+#/usr/bin/env bash
 #
 # Script to install and manage dotfiles
+#
+# The shebang path above is to also support installin a newer version of bash
+# on MacOS via brew, and the new version is not installed as /bin/bash
 
 ##~~ Variables ~~##
 # We export the variables so that the pre/post setup/remove scripts have access
 # to them.
-export MYDIR=$(realpath -s $(dirname $0))
+export MYDIR=$(cd $(dirname $0) && pwd)
 export ME=$(basename $0)
 
 # Where to install to. Can be overridden by environment variable
