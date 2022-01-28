@@ -1,0 +1,28 @@
+
+# Config file passed in for all stow calls
+
+# There are all the files in a component that stow will ignore when installing
+# the other files from the component.
+# All compnents should have this file to give some info about the component
+--ignore=README\.component
+# Optional pre-setup script to run for the component - ignored for installation
+--ignore=_pre_setup\.sh
+# Optional post-setup script to run for the component - ignored for installation
+--ignore=_post_setup\.sh
+# Optional pre-remove script to run for the component - ignored for installation
+--ignore=_pre_remove\.sh
+# Optional post-remove script to run for the component - ignored for installation
+--ignore=_post_remove\.sh
+# Ignore any vim swap files while developing and testing
+--ignore=\..+\.sw.*
+# Optional system local vim plugins file
+--ignore=plugins_local\.txt
+
+--ignore=xstow.ini
+
+# Vim component
+--ignore=plugins\.txt
+--ignore=vim-pathogen
+
+# Tmux component
+--ignore=oh_my_tmux

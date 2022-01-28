@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # This script will clean up all bundles and other auto generated files for vim
 # to ensure we clean up properly when uninstalling dotfiles
