@@ -144,49 +144,6 @@ function cleanup() {
     done
 }
 
-##--
-# Allows interactively setting the prompt colors
-##--
-function setPrompt() {
-    fgc=""
-    bgc=""
-    cOff="\e[0m"
-
-    fgpt="\e[38;5;"
-    bgpt="\e[48;5;"
-
-    [ -z "$fgc" ] && pcol="" || pcol="${fgpt}${fgc}m"
-    [ -z "$bgc" ] && pcol="${pcol}" || pcol="${pcol}${bgpt}${bgc}m"
-
-    while true; do
-        system/colors.sh
-        prompt="[${USER}@${pcol}$(hostname)${cOff}:$(basename $(pwd))]$"
-        echo -en "${prompt} "
-        read -p "Background color (enter for none): " bgc
-        read -p "Foregound color (enter for none): " fgc
-
-        [ -z "$fgc" ] && pcol="" || pcol="${fgpt}${fgc}m"
-        [ -z "$bgc" ] && pcol="${pcol}" || pcol="${pcol}${bgpt}${bgc}m"
-
-        prompt="[${USER}@${pcol}$(hostname)${cOff}:$(basename $(pwd))]$"
-        echo -en "${prompt} "
-        read -p "<-- Enter 'c' to change, enter to accept: " ans
-        [ -z "$ans" ] && break
-    done
-
-    # The \[ and \] symbols allow bash to understand which parts of the
-    # prompt cause no cursor movement; without them, lines will wrap
-    # incorrectly. See: https://mywiki.wooledge.org/BashFAQ/037
-    [ -n "$pcol" ] && pcol="\[${pcol}\]" && cOff="\[${cOff}\]"
-
-    cat > system/etc/host_prompt_colors << __EOF__
-# Host prompt set using: 'install.sh prompt' from dotfiles repo
-prompt: ${pcol}\h${cOff}
-__EOF__
-
-    echo -e "\nYou should run '$ME -c system' now to set the new system prompt.\n"
-}
-
 # Get all available components
 getComponents
 
@@ -209,9 +166,6 @@ while [ "$1" != "" ]; do
                 COMPLIST="$COMPLIST $c"
             done
             ;;
-        prompt)
-            SETPROMPT=1
-            ;;
         clean)
             CLEANUP='1'
             ;;
@@ -231,9 +185,7 @@ cd $MYDIR
 checkXstow
 
 # Do the work
-if [ "$SETPROMPT" = "1" ]; then
-    setPrompt
-elif [ "$CLEANUP" = "1" ]; then
+if [ "$CLEANUP" = "1" ]; then
     cleanup $COMPLIST
 else
     install $COMPLIST
