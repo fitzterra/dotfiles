@@ -18,8 +18,6 @@
 # Optional system local vim plugins file
 --ignore=plugins_local\.txt
 
---ignore=xstow.ini
-
 # Vim component
 --ignore=plugins\.txt
 --ignore=vim-pathogen
