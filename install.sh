@@ -97,85 +97,34 @@ function showComponents() {
 }
 
 ##--
-# Install system files.
-# Extepcts a source dir name containing the system files to install. The files
-# in this source dir are copied to the root '/' dir, preserving the dir
-# hierarchy the files live in under the source dir.
-# Any existing files in the target location will be OVERWRITTEN!
-# Also note that tre dir tree to which files are being coepied off the root
-# ('/' ), must exist already. Trying to install a system file to the '/foo/bar'
-# dir without these dirs already existing will result in an error.
-function sysInstall() {
-    SRC=$1
-    # Ensure that SRC ends with one and only one trailing slash
-    SRC="${SRC%%/*}/"
-
-    # List of files to ignore. This could later be a file in the dir which read
-    # and parsed into the structure used here.
-    # For now, this is a string consisting of one or more file names separated
-    # by commas (no spaces around the commas).
-    # It's very crude at the moment, so extend as required.
-    # Trailing comma is required.
-    IGNORE_LIST="README.component,colors.sh,host_prompt_colors.dist,"
-
-    # Find all files in the source dir, excluding any files or dirs that are
-    # hidden.
-    for f in $(find "$SRC" -type f -not -path '*/\.*'); do
-        # Ignore it? Take the file name only and see if it exists in
-        # IGNORE_LIST with a trailing comma to the name.
-        if (echo $IGNORE_LIST | grep -q "$(basename $f),"); then
-            continue
-        fi
-
-        # The target is the found file with the source dir part replaced by '/'
-        tgt=${f/${SRC}/\/}
-        sudo cp -vf $f $tgt
-    done
-}
-
-##--
 # Does an install - components to install are passed as arguments
 ##-
 function install() {
     for c in $@; do
-        # The `system` component gets installed as sudo since these are
-        # expected to be system level files. For other components, $SUDO is
-        # empty and has no effect on the subsequent command.
-        [ "$c" == "system" ] && SUDO="sudo" || SUDO=""
-
         # Run any pre-setup scripts
         if [ -x ${c}/_pre_setup.sh ]; then
-            $SUDO ${c}/_pre_setup.sh || exit 2
+            ${c}/_pre_setup.sh || exit 2
         fi
 
         # Include any component specific xstow.ini files if present
         COMPCONF=${c}/xstow.ini
         [ -f $COMPCONF ] && COMPCONF="-F $COMPCONF" || COMPCONF=""
 
-        # Stow all files. The `system` component is installed using the
-        # sysInstall function.
-        if [ "$c" == "system" ]; then
-            sysInstall $c || exit 1
-        else
-            xstow -v $COMPCONF -t $INSTALLTARGET $c || exit 1
-        fi
+        # Stow all files.
+        xstow -v $COMPCONF -t $INSTALLTARGET $c || exit 1
 
         # Run any post-setup scripts
         if [ -x ${c}/_post_setup.sh ]; then
-            $SUDO ${c}/_post_setup.sh || exit 2
+            ${c}/_post_setup.sh || exit 2
         fi
     done
 }
 
 ##--
 # Does a cleanup - components to install are passed as arguments
-# Cleanup of the system component is ignored for now
 ##-
 function cleanup() {
     for c in $@; do
-        if [ "$c" == "system" ]; then
-            echo "Ignoring 'system' component in cleanup..."
-        fi
 
         # Run any pre-remove scripts
         if [ -x ${c}/_pre_remove.sh ]; then
@@ -190,7 +139,7 @@ function cleanup() {
 
         # Run any post-remove scripts
         if [ -x ${c}/_post_remove.sh ]; then
-            $SUDO ${c}/_post_remove.sh || exit 2
+            ${c}/_post_remove.sh || exit 2
         fi
     done
 }
