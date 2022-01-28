@@ -11,6 +11,11 @@
 export MYDIR=$(cd $(dirname $0) && pwd)
 export ME=$(basename $0)
 
+# By default we want the install to be unattended, but allow for asking certain
+# questions that affect the system as a whole if the user wants it. This is via
+# the -C command line option
+ASK=no
+
 # Where to install to. Can be overridden by environment variable
 export INSTALLTARGET=${INSTALLTARGET:=~/}
 
@@ -24,8 +29,8 @@ declare -A COMPS
 # and if not, we check for brew. Whichever was found is the default installer.
 PKG_INSTALLER=
 PKG_INSTALLER_OPTS="install"
-for i in apt-get brews; do
-    if $(which $i &>/dev/null); then
+for i in apt-get brew; do
+    if which $i &>/dev/null; then
         PKG_INSTALLER=$i
         if [[ $i = "apt-get" ]]; then
             # Apt-get needs to be run as root
@@ -38,30 +43,33 @@ done
 [[ -z $PKG_INSTALLER ]] && echo "Could not find a package installer.  Exiting..." && exit 1
 
 echo "Package installer: $PKG_INSTALLER"
+
 ##~~ Functions ~~##
 
-# Check that xstow is installed, and if not ask to install it
-function checkXstow () {
-    STOWER=xstow
+# Check that stow is installed, and if not ask to install it
+function checkStow () {
+    STOWER=stow
 
     if which $STOWER >/dev/null; then
         return
     fi
 
-    read -p "The '$STOWER' command is required. Install it now? [Y/n]: " -n 1 ans
-    # Add a newline to the output only if enter was not pressed
-    [ "$ans" != "" ] && echo
-    # Set default answer to yes if enter was pressed and translate to lower case
-    ans=$(echo ${ans:-y} | tr 'A-Z' 'a-z')
+    if [[ $ASK = "yes" ]]; then
+        read -p "The '$STOWER' command is required. Install it now? [Y/n]: " -n 1 ans
+        # Add a newline to the output only if enter was not pressed
+        [ "$ans" != "" ] && echo
+        # Set default answer to yes if enter was pressed and translate to lower case
+        ans=$(echo ${ans:-y} | tr 'A-Z' 'a-z')
 
-    # We can not continue if we can not install xstow
-    if [ "$ans" = "n" ]; then
-        echo "Using this dotfiles manager requires $STOWER. Can not continue, sorry."
-        exit 1
+        # We can not continue if we can not install $STOWER
+        if [ "$ans" = "n" ]; then
+            echo "Using this dotfiles manager requires $STOWER. Can not continue, sorry."
+            exit 1
+        fi
     fi
 
     echo -e "Attempting to install $STOWER...\n"
-    sudo apt-get install $STOWER
+    $PKG_INSTALLER $PKG_INSTALLER_OPTS $STOWER
 
     if [ $? -ne 0 ]; then
         echo -e "\nCan not continue until this is fixed. Sorry..."
@@ -74,16 +82,18 @@ function usage() {
 
 Installs or cleans up, all or only certain, dotfile components.
 
-Usage: $ME [prompt|clean] [-c component] [-h]
+Usage: $ME [clean] [-c component] [-h]
 
 commands:
-    prompt  Interactivley set command promt color
     clean   Will clean up instead of install
 
 options:
     -c comp,comp... Comma seperated list of components to install or clean. If
                     not supplied, all components are selected. Use -c list to
                     get a list of available components.
+    -C              Ask to confirm for certain action that affect the system
+                    as a whole. Default is for unattended install, so no
+                    confirmations are asked for.
     -h              Show this help
 
 environment variables:
@@ -185,6 +195,9 @@ while [ "$1" != "" ]; do
                 COMPLIST="$COMPLIST $c"
             done
             ;;
+        -C)
+            ASK=yes
+            ;;
         clean)
             CLEANUP='1'
             ;;
@@ -200,8 +213,8 @@ COMPLIST=${COMPLIST:-"${!COMPS[*]}"}
 # I have to be run from my install dir
 cd $MYDIR
 
-# We need xstow
-checkXstow
+# We need a stower
+checkStow
 
 # Do the work
 if [ "$CLEANUP" = "1" ]; then
