@@ -36,7 +36,7 @@ for i in apt-get brew; do
             # Apt-get needs to be run as root
             PKG_INSTALLER="sudo $i"
             # We always for yes for apt installs
-            PKG_INSTALLER_OPTS="-y $PK_INSTALLER_OPTS"
+            PKG_INSTALLER_OPTS="-y $PKG_INSTALLER_OPTS"
         fi
     fi
 done
