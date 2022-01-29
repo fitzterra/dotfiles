@@ -1,0 +1,4 @@
+# Cheatsheats config - only aliases for now
+
+alias vimcheatsheet='gview ~/dotfiles/cheatsheets/vim-cheatsheet.md'
+alias tmuxcheatsheet='gview ~/dotfiles/cheatsheets/tmux-cheatsheet.md'

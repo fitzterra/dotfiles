@@ -1,6 +1,18 @@
-alias lxcls='sudo lxc-ls -f'
-alias lxcstop='sudo lxc-stop'
-alias lxcstart='sudo lxc-start'
+alias ls='ls --color=auto'  # Add it here because default /root/.bashrc does not
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
 
-alias vimcheatsheet='gview ~/dotfiles/cheatsheets/vim-cheatsheet.md'
-alias tmuxcheatsheet='gview ~/dotfiles/cheatsheets/tmux-cheatsheet.md'
+# Some more alias to avoid making mistakes:
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# short commands
+alias h='history'
+alias j="jobs -l"
+alias c="clear"
+alias m="less"
+alias pu="pushd"
+alias po="popd"
+alias s="sudo"
