@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
-# Adds or removes the bash hook to .bashrc
+# Adds or removes the bash hook to .bashrc, and also creates $INSTALLTARGET/bin
+# if it does not already exist.
 # This script is called _pre_setup.sh which indicates that when called, it
 # should try to add the hook.
 # This same script can also be used to remove the hook, by creating a symlink
@@ -80,4 +81,8 @@ fi
 
 # Do it
 setBashRcHook $ARGS
+
+# Create ~/bin if needed
+BINDIR=${INSTALLTARGET}/bin
+[[ ! -d  $BINDIR ]] && mkdir -v $BINDIR
 
