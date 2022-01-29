@@ -69,6 +69,12 @@ __HOOK__
 
         echo "$HOOK" >> $RCFILE || exit 1
         echo " done."
+
+        # Create ~/bin if needed
+        BINDIR=${INSTALLTARGET}/bin
+        # Note trailing echo is required to ensure a 0 return code to indicate
+        # that it is not an error if bin exists.
+        [[ ! -d  $BINDIR ]] && mkdir -v $BINDIR || echo "$BINDIR already exists."
     fi
 }
 
@@ -81,8 +87,4 @@ fi
 
 # Do it
 setBashRcHook $ARGS
-
-# Create ~/bin if needed
-BINDIR=${INSTALLTARGET}/bin
-[[ ! -d  $BINDIR ]] && mkdir -v $BINDIR
 
