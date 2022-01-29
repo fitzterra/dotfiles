@@ -2,7 +2,7 @@
 #
 # Script to install and manage dotfiles
 #
-# The shebang path above is to also support installin a newer version of bash
+# The shebang path above is to also support installing a newer version of bash
 # on MacOS via brew, and the new version is not installed as /bin/bash
 
 ##~~ Variables ~~##
@@ -108,10 +108,12 @@ _EOU_
 ##--
 function getComponents() {
     # Components are all dirs containing a README.component file
-    for c in $(find . -maxdepth 2 -name README.component); do
-        comp=$(dirname $c | sed 's@^\./@@')
+    for c in $(find $MYDIR -maxdepth 2 -name README.component); do
+        comp=$(dirname $c | sed 's@^.*/@@')
         COMPS[$comp]=$(cat $c)
     done
+
+    echo "Components found: ${!COMPS[@]}"
 }
 
 ##--
@@ -130,6 +132,8 @@ function showComponents() {
 ##-
 function install() {
     for c in $@; do
+        echo -e "\n++++++++++++++++++++\nInstalling component: $c"
+
         # Run any pre-setup scripts
         if [ -x ${c}/_pre_setup.sh ]; then
             ${c}/_pre_setup.sh || exit 2
@@ -150,6 +154,7 @@ function install() {
 ##-
 function cleanup() {
     for c in $@; do
+        echo -e "\n++++++++++++++++++++\nCleaning up component: $c"
 
         # Run any pre-remove scripts
         if [ -x ${c}/_pre_remove.sh ]; then
