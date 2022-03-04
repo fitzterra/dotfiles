@@ -1,7 +1,12 @@
 " Enables fzf base extension if fzf was installed as a Debian package.
-" See /usr/share/doc/fzf/README.Debian
 if filereadable("/usr/share/doc/fzf/examples/fzf.vim")
+    " See /usr/share/doc/fzf/README.Debian
     source /usr/share/doc/fzf/examples/fzf.vim
+elseif filereadable("/opt/homebrew/opt/fzf/plugin/fzf.vim")
+    " For MacOS with fzf installed via homebrew, the default fzf+vim
+    "instructions for just adding the fzf path to the vim runtime path does not
+    "seem to work. Sourcing the file like this works fine.
+    source /opt/homebrew/opt/fzf/plugin/fzf.vim
 endif
 
 " NOTE: This should be ringed in a test to see if fzf-vim is installed, but
