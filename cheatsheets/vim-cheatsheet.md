@@ -75,3 +75,6 @@ You have a file open in another tab and want it in the local tab as split:
     until you find the one to open in the local window.
 * Using `:vert sb ` makes a vertical split
 
+## Reload vim config
+* `:source ~/.vimrc`
+* Also see: https://vi.stackexchange.com/questions/21090/reload-complete-configuration-from-within-vim
