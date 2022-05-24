@@ -172,6 +172,10 @@ endfun
 " Insert a Python debug trace line at the current cursor position.
 " Key combo is <ALT-SHIFT-d>
 autocmd FileType python nnoremap <buffer> <A-D> <Esc>Oimport ipdb; ipdb.set_trace()<Esc>
+" On MacOS I may have 'ALT' and OSX command keys swapped around, and then the
+" above does not work. For this reason \d is also mapped to setting up
+" debugging in Python files.
+autocmd FileType python nnoremap <buffer> <Leader>d <Esc>Oimport ipdb; ipdb.set_trace()<Esc>
 autocmd FileType python set foldmethod=indent
 " Open an ipython shell in a terminal when hitting \ip in normal more
 autocmd FileType python nnoremap <Leader>ip :term ++close ipython<CR>
