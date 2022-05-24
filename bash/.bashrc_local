@@ -6,6 +6,9 @@
 # files can be installed without merging their new config changes to our
 # local changes on package upgrades.
 
+# Set vi key bindings
+set -o vi
+
 # First source any system wide local changes
 [ -f /etc/bash.rclocal ] && . /etc/bash.rclocal
 
