@@ -1,17 +1,22 @@
 My Vim Cheat Sheet
 ==================
 
+**Table of Content**
+
 1. [External cheatsheets](#external-cheatsheets)
 2. [Count number of lines in selection](#count-number-of-lines-in-selection)
 3. [Open url in browser](#open-url-in-browser)
 4. [Search web from vim](#search-web-from-vim)
 5. [Copy word under cursor to command line](#copy-word-under-cursor-to-command-line)
-6. [Visual mode cheats:](#visual-mode-cheats:)
-7. [Sum numbers in highlighted block:](#sum-numbers-in-highlighted-block:)
+6. [Visual mode cheats:](#visual-mode-cheats)
+7. [Sum numbers in highlighted block:](#sum-numbers-in-highlighted-block)
 8. [Insert full path of current file at cursor position while in insert mode](#insert-full-path-of-current-file-at-cursor-position-while-in-insert-mode)
 9. [Center text within visual selection](#center-text-within-visual-selection)
 10. [Delete lines matching a regex](#delete-lines-matching-a-regex)
 11. [Open tab in local window split](#open-tab-in-local-window-split)
+12. [Reload vim config](#reload-vim-config)
+13. [Execute normal mode commands from insert mode](#execute-normal-mode-commands-from-insert-mode)
+14. [Change to, or toggle, upper or lower case](#change-to-or-toggle-upper-or-lower-case)
 
 
 ## External cheatsheets
@@ -78,3 +83,23 @@ You have a file open in another tab and want it in the local tab as split:
 ## Reload vim config
 * `:source ~/.vimrc`
 * Also see: https://vi.stackexchange.com/questions/21090/reload-complete-configuration-from-within-vim
+
+## Execute normal mode commands from insert mode
+* `C-o {normal mode cmd}`
+* Also see: https://dev.to/iggredible/vim-do-you-know-that-you-can-execute-normal-mode-command-while-in-insert-mode-1ipb
+
+## Change to, or toggle, upper or lower case
+* For one character from normal mode:
+    * Toggle: `~`
+    * Upper: `gUl`
+    * Lower: `gul`
+* For one word from normal mode:
+    * Toggle: `g~w` when on 1st char in word, or `g~iw` from any place in word
+    * Upper: `gUw` or `gUiw`
+    * Lower: `guw` or `guiw`
+* For a selection:
+    * Toggle: `~`
+    * Upper: `gU`
+    * Lower: `gu`
+* Try `:help gu` for more options
+
