@@ -40,6 +40,9 @@ plugins=(
     [fzf-vim]='https://github.com/junegunn/fzf.vim'
     # Search the web from vim
     [vim-browser-search]='https://github.com/voldikss/vim-browser-search.git'
+    # Run commands in the background - mostly for running a markdown viewer
+    # while editing the MD file in vim. Also see: https://github.com/tpope/vim-dispatch
+    [vim-dispatch]='https://tpope.io/vim/dispatch.git'
 )
 
 # Include any system local plugins found. We will source the
