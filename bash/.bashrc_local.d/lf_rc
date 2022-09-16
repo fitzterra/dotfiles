@@ -1,0 +1,7 @@
+# Set some default things for LF Terminal File Manager
+
+# Allows LF to change to the dir you exit in if called as lfcd
+LFCD=~/.config/lf/lfcd.sh
+if [[ -f $LFCD ]]; then
+    source $LFCD
+fi
