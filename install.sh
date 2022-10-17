@@ -214,6 +214,13 @@ cd $MYDIR
 # We need a stower
 checkStow
 
+# Depending on the stower, it may not like comments in .stowrc, so we save
+# .stowrc as dot.stowrc where we allow comments to make things easier to
+# understand. This is where we then create .stowrc from dot.stowrc by
+# stripping all comments from dot.stowrc and then saving it as .stowrc.
+grep -v "#" dot.stowrc > .stowrc
+
+
 # Do the work
 if [ "$CLEANUP" = "1" ]; then
     cleanup $COMPLIST

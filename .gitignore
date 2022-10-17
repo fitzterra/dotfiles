@@ -11,3 +11,7 @@ vim/.vim/spell
 
 # All the tmux plugins
 tmux/.tmux/*
+
+# We create .stowrc from dot.stowrc on every install.sh run, so we ignore
+# .stowrc
+.stowrc
