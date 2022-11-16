@@ -43,6 +43,8 @@ plugins=(
     # Run commands in the background - mostly for running a markdown viewer
     # while editing the MD file in vim. Also see: https://github.com/tpope/vim-dispatch
     [vim-dispatch]='https://tpope.io/vim/dispatch.git'
+    # CSV managment. Also see https://vimtricks.com/p/vim-csv-files/
+    [rainbow_csv]='https://github.com/mechatroner/rainbow_csv.git'
 )
 
 # Include any system local plugins found. We will source the
