@@ -128,6 +128,36 @@ function showComponents() {
 }
 
 ##--
+# Creates ~/.config if it does not exist as a dir.
+# Some of the components has config files or dirs that needs to go into
+# ~/.config - if this dir does not exist already when such a component is
+# installed, stow will link the .config dir in the component to ~/.config
+# instead of the component subdir inside .config.
+# This means that anything ne installed in ~/.config is going to use the linked
+# .config dir which is now inside the component dir in the repo.
+#--
+function setupDotConfig() {
+    CONF=~/.config
+
+    # It must be a dir, but not a symlink to a dir
+    if [[ -d $CONF && ! -L $CONF ]]; then
+        # It's a dir, so all good
+        return
+    fi
+
+    # If it exists, it means it's not a dir, so we have a problem
+    if [[ -e $CONF ]]; then
+        echo "Found a $CONF entry which is not a dir."
+        echo "Some components requires $CONF to exist as a dir, so we"\
+             "can not continue at this point."
+        exit 3
+    fi
+
+    # Create it
+    mkdir -v $CONF || exit 4
+}
+
+##--
 # Does an install - components to install are passed as arguments
 ##-
 function install() {
@@ -225,5 +255,7 @@ grep -v "#" dot.stowrc > .stowrc
 if [ "$CLEANUP" = "1" ]; then
     cleanup $COMPLIST
 else
+    # We need ~/.config to be set up correctly
+    setupDotConfig
     install $COMPLIST
 fi
