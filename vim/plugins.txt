@@ -45,6 +45,8 @@ plugins=(
     [vim-dispatch]='https://tpope.io/vim/dispatch.git'
     # CSV managment. Also see https://vimtricks.com/p/vim-csv-files/
     [rainbow_csv]='https://github.com/mechatroner/rainbow_csv.git'
+    # Easy swap windows/buffers in vim splits
+    [vim-windowswap]='https://github.com/wesQ3/vim-windowswap.git'
 )
 
 # Include any system local plugins found. We will source the
