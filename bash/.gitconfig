@@ -46,6 +46,8 @@
     prompt = false
 [commit]
     verbose = True
+[safe]
+	directory = /opt/homebrew
 [filter "lfs"]
     # Make it easier to work with git large file support
 	clean = git-lfs clean -- %f
