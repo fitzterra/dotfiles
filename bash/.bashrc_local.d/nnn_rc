@@ -1,8 +1,26 @@
-# RC file to setup cd on exit for nnn file manager
+# RC file to setup nnn file manager
 # https://github.com/jarun/nnn/blob/master/misc/quitcd/quitcd.bash_zsh
+
 
 # Only set this up if nnn is installed
 if [[ -n $(which nnn) ]]; then
+
+    NNN_CONFDIR="${XDG_CONFIG_HOME:-$HOME/.config}/nnn"
+    NNN_PLUGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins"
+
+    # Default command line options:
+    # c: force cli opener so we can use the nuke plugin as opener - see below
+    # d: detail file mode - show timestamp and size
+    # i: show info about selected file at the bottom of the window
+    export NNN_OPTS="cdi"
+
+    # Use nuke as opener when -c is used
+    export NNN_OPENER="${NNN_PLUGDIR}/nuke"
+    # Also set GUI so that PDFs, images, etc. are opened in a GUI and not tried
+    # as text. See the plugin code.
+    export GUI=1
+
+    # Setup ncd function to cd on exit
     function ncd ()  {
         # Block nesting of nnn in subshells
         if [[ "${NNNLVL:-0}" -ge 1 ]]; then
@@ -15,7 +33,7 @@ if [[ -n $(which nnn) ]]; then
         # see. To cd on quit only on ^G, remove the "export" and make sure not to
         # use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
         #     NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-        export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+        export NNN_TMPFILE="${NNN_CONFDIR}/.lastd"
 
         # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
         # stty start undef
@@ -32,4 +50,5 @@ if [[ -n $(which nnn) ]]; then
                 rm -f "$NNN_TMPFILE" > /dev/null
         fi
     }
+
 fi
