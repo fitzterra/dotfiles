@@ -66,6 +66,8 @@ set modeline			" Allow support for modelines in files
 set hlsearch			" Highlight search results
 set conceallevel=2      " Specifically in markdown, conceals the markup around text
 set tw=79               " Limit lines to 79 chars long by default
+set splitright          " Always put new vertical split windows to the right
+set splitbelow          " Always put new horizontal split windows below the current window
 
 " Make folding available but leave it manual unless overridden by a syntax file
 set foldmethod=manual
