@@ -7,6 +7,9 @@ if [[ -n $(which nnn) ]]; then
 
     NNN_CONFDIR="${XDG_CONFIG_HOME:-$HOME/.config}/nnn"
     NNN_PLUGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins"
+    # Shortcuts to plugins: https://github.com/jarun/nnn/tree/master/plugins#nnn-plugins
+    DIR_BOOKMARKS="b:cdpath"
+    export NNN_PLUG="${DIR_BOOKMARKS}"
 
     # Default command line options:
     # c: force cli opener so we can use the nuke plugin as opener - see below
