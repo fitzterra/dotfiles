@@ -2,6 +2,10 @@
 " Local Vim config
 "
 
+" Setup pathogen for installing plugins in ~/.vim/bundle
+execute pathogen#infect()
+execute pathogen#helptags()
+
 " We want syntax highligting on
 syntax on
 
@@ -45,7 +49,8 @@ augroup SpellUnderline
   augroup END
 
 " Set a color scheme
-colorscheme desert
+"colorscheme desert
+colorscheme apprentice
 
 " Some more things we want...
 set nocompatible        " Required by vim-wiki, nd should be set fairly early on
@@ -106,10 +111,6 @@ imap <C-S-Right> <Esc>:tabmove +1<CR>
 if has("autocmd")
   filetype plugin indent on
 endif
-
-" Setup pathogen for installing plugins in ~/.vim/bundle
-execute pathogen#infect()
-execute pathogen#helptags()
 
 ">>>>>>>>>>>>> NetRW Settings <<<<<<<<<<<<<<"
 " Set the tree listing style from file browsing
