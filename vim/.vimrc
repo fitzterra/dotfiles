@@ -93,10 +93,12 @@ map <C-Tab> :tabnext<CR>
 imap <C-Tab> <Esc>:tabnext<CR>
 map <C-S-Tab> :tabprevious<CR>
 imap <C-S-Tab> <Esc>:tabprevious<CR>
-" Ctrl-T opens a new tab with the file editor in the current dir in both
+" Ctrl-T opens a new empty tab normal and insert modes
+map <C-T> :tabnew<CR>
+imap <C-T> <Esc>:tabnew<CR>
+" Leader-t opens a new tab with the file editor in the current dir in both
 " normal and insert modes
-map <C-T> :tabnew .<CR>
-imap <C-T> <Esc>:tabnew .<CR>
+nnoremap <Leader>t :tabnew .<CR>
 " Allow moving tabs left and right with Ctrl-Shift-Left/Right arrow
 map <C-S-Left> :tabmove -1<CR>
 imap <C-S-Left> <Esc>:tabmove -1<CR>
