@@ -99,6 +99,7 @@ imap <C-T> <Esc>:tabnew<CR>
 " Leader-t opens a new tab with the file editor in the current dir in both
 " normal and insert modes
 nnoremap <Leader>t :tabnew .<CR>
+nnoremap <Leader>T :Texplore<CR>
 " Allow moving tabs left and right with Ctrl-Shift-Left/Right arrow
 map <C-S-Left> :tabmove -1<CR>
 imap <C-S-Left> <Esc>:tabmove -1<CR>
@@ -134,6 +135,9 @@ set spell
 " Pretty format XML by pressing = on a selection
 " Adaption from http://vim.wikia.com/wiki/Pretty-formatting_XML option 2
 vnoremap = :!python -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"<CR>
+" Pretty format JSON by pressing + on a selection
+" Adaption from http://vim.wikia.com/wiki/Pretty-formatting_XML option 2
+vnoremap + :!python -c "import json, sys; print(json.dumps(json.load(sys.stdin), indent=4))"<CR>
 
 " Spacebar toggels a fold open/close
 nnoremap <space> za
