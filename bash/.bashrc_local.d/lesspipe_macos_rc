@@ -3,7 +3,11 @@
 # homebrew and then set the environment variable.
 
 if [[ $(uname) = "Darwin" ]]; then
+    # The latests lesspipe install, puts this in /usr/local/bin, but we stay
+    # backwards compatible here 
     if [[ -f /opt/homebrew/bin/lesspipe.sh ]]; then
         export LESSOPEN="|/opt/homebrew/bin/lesspipe.sh %s"
+    elif [[ -f /usr/local/bin/lesspipe.sh ]]; then
+        export LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
     fi
 fi
