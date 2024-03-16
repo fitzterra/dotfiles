@@ -41,7 +41,8 @@ TERM Eterm
 # 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
 NORMAL 00 # global default, although everything should be something.
 FILE 00 # normal file
-DIR 01;37;44 # directory
+#DIR 01;37;44 # directory
+DIR 01;32 # directory
 LINK 01;36 # symbolic link. (If you set this to 'target' instead of a
  # numerical value, the color is as for the file pointed to.)
 FIFO 40;33 # pipe
@@ -54,9 +55,10 @@ SETUID 37;41 # file that is setuid (u+s)
 SETGID 30;43 # file that is setgid (g+s)
 STICKY_OTHER_WRITABLE 30;42 # dir that is sticky and other-writable (+t,o+w)
 OTHER_WRITABLE 34;42 # dir that is other-writable (o+w) and not sticky
-STICKY 37;44 # dir with the sticky bit set (+t) and not other-writable
+#STICKY 37;44 # dir with the sticky bit set (+t) and not other-writable
+STICKY 01;37;42 # dir with the sticky bit set (+t) and not other-writable
 # This is for files with execute permission:
-EXEC 01;32
+EXEC 01;33
 # List any file extensions like '.gz' or '.tar' that you would like ls
 # to colorize below. Put the extension, a space, and the color init string.
 # (and any comments you want to add after a '#')
