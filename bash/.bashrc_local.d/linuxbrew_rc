@@ -1,0 +1,19 @@
+# Setup linuxbrew if it is installed.
+# To install:
+#   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+#
+# This will install linuxbrew to /home/linuxbrew/ as root via sudo - you need
+# root access via sudo.
+#
+# See https://brew.sh/
+#
+# This is the bit that sets up your shel env as per:
+#  /home/linuxbrew/.linuxbrew/bin/brew shellenv
+
+# Only on linux
+if $( uname -o | grep -q -i "linux" ); then
+    # Only if linuxbrew is where it should be
+    if [[ -a /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    fi
+fi
