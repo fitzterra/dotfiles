@@ -52,6 +52,8 @@ plugins=(
     [apprentice]='https://github.com/romainl/Apprentice.git'
     # Distraction free writing or presentation - also see the presenter.vim plugin
     [goyo]='https://github.com/junegunn/goyo.vim.git'
+    # Line commenter and uncommenter by Tim Pope
+    [vim-commentry]='https://github.com/tpope/vim-commentary.git'
 )
 
 # Include any system local plugins found. We will source the
