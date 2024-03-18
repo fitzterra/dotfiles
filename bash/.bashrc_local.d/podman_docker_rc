@@ -1,0 +1,5 @@
+# Add an alias to make podman look like docker, allowing you to run podman
+# instead of docker, but still use all the docker commands as normal
+if $(which -s podman); then
+    alias docker='podman'
+fi
