@@ -192,7 +192,7 @@ autocmd FileType python nnoremap <Leader>ip :term ++close ipython<CR>
 autocmd FileType python map <buffer> <F5> :w<CR>:exec '!/usr/bin/env python' shellescape(@%, 1)<CR>
 " Rebuild the tags file - this is not Python specific, but we leave it here for
 " now.
-nnoremap <Leader>bt :!ctags -R .<CR>
+nnoremap <Leader>bt :AsyncRun ctags -R .<CR>
 
 ">>>>>>>>>>>>> Dot/Graphviz Files <<<<<<<<<<<<<<"
 " Compile the current graph. This requires the vim graphviz plugin from
