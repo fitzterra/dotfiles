@@ -54,6 +54,8 @@ plugins=(
     [goyo]='https://github.com/junegunn/goyo.vim.git'
     # Line commenter and uncommenter by Tim Pope
     [vim-commentry]='https://github.com/tpope/vim-commentary.git'
+    # Running processes asynchronously in vim
+    [asyncrun]='https://github.com/skywind3000/asyncrun.vim.git'
 )
 
 # Include any system local plugins found. We will source the
