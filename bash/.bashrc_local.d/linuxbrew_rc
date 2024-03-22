@@ -15,5 +15,16 @@ if $( uname -o | grep -q -i "linux" ); then
     # Only if linuxbrew is where it should be
     if [[ -a /home/linuxbrew/.linuxbrew/bin/brew ]]; then
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+        # Setup bash completions for brew.
+        # See: https://docs.brew.sh/Shell-Completion#configuring-completions-in-bash
+        HOMEBREW_PREFIX="$(brew --prefix)"
+        if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+            source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+        else
+            for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"* ; do
+                [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+            done
+        fi
     fi
 fi
