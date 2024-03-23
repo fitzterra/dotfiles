@@ -12,45 +12,46 @@ syntax on
 " Set less eye-injuring colors for spell errors on terminal.
 " See here: https://vi.stackexchange.com/a/21168
 " Force to use underline for spell check results
-augroup SpellUnderline
-  autocmd!
-  autocmd ColorScheme *
-    \ highlight SpellBad
-    \   cterm=Underline
-    \   ctermfg=NONE
-    \   ctermbg=NONE
-    \   term=Reverse
-    \   gui=Undercurl
-    \   guisp=Red
-  autocmd ColorScheme *
-    \ highlight SpellCap
-    \   cterm=Underline
-    \   ctermfg=NONE
-    \   ctermbg=NONE
-    \   term=Reverse
-    \   gui=Undercurl
-    \   guisp=Red
-  autocmd ColorScheme *
-    \ highlight SpellLocal
-    \   cterm=Underline
-    \   ctermfg=NONE
-    \   ctermbg=NONE
-    \   term=Reverse
-    \   gui=Undercurl
-    \   guisp=Red
-  autocmd ColorScheme *
-    \ highlight SpellRare
-    \   cterm=Underline
-    \   ctermfg=NONE
-    \   ctermbg=NONE
-    \   term=Reverse
-    \   gui=Undercurl
-    \   guisp=Red
-  augroup END
+"augroup SpellUnderline
+"  autocmd!
+"  autocmd ColorScheme *
+"    \ highlight SpellBad
+"    \   cterm=Underline
+"    \   ctermfg=NONE
+"    \   ctermbg=NONE
+"    \   term=Reverse
+"    \   gui=Undercurl
+"    \   guisp=Red
+"  autocmd ColorScheme *
+"    \ highlight SpellCap
+"    \   cterm=Underline
+"    \   ctermfg=NONE
+"    \   ctermbg=NONE
+"    \   term=Reverse
+"    \   gui=Undercurl
+"    \   guisp=Red
+"  autocmd ColorScheme *
+"    \ highlight SpellLocal
+"    \   cterm=Underline
+"    \   ctermfg=NONE
+"    \   ctermbg=NONE
+"    \   term=Reverse
+"    \   gui=Undercurl
+"    \   guisp=Red
+"  autocmd ColorScheme *
+"    \ highlight SpellRare
+"    \   cterm=Underline
+"    \   ctermfg=NONE
+"    \   ctermbg=NONE
+"    \   term=Reverse
+"    \   gui=Undercurl
+"    \   guisp=Red
+"  augroup END
 
 " Set a color scheme
 "colorscheme desert
-colorscheme apprentice
+"colorscheme apprentice
+colorscheme PaperColor
 
 " Some more things we want...
 set nocompatible        " Required by vim-wiki, nd should be set fairly early on
@@ -129,8 +130,11 @@ else
     " as <C-_> ...
     nnoremap <C-_> :noh<CR>
 endif
-" Always enable spell
+" Always enable spell, and set a local spell file. The idea is that the
+" spellfile should normally be a hidden file in the project and can be ignored
+" by .gitignore in git repo
 set spell
+set spellfile=.vim-spellfile.add
 
 " Pretty format XML by pressing = on a selection
 " Adaption from http://vim.wikia.com/wiki/Pretty-formatting_XML option 2
