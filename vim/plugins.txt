@@ -18,9 +18,6 @@ plugins=(
     # The plugin-name will be used as the dir to clone the repo into
     [vim-tabular]='https://github.com/godlygeek/tabular.git'
     [vim-table-mode]='https://github.com/dhruvasagar/vim-table-mode.git'
-    [vim-markdown]='https://github.com/plasticboy/vim-markdown.git'
-    [vim-markdown-toc]='https://github.com/ajorgensen/vim-markdown-toc.git'
-    [vim-openscad]='https://github.com/sirtaj/vim-openscad.git'
     [vimwiki]='https://github.com/vimwiki/vimwiki.git'
     [vimwiki-git]='https://github.com/fitzterra/vimwiki-git.git'
     # Allows vim settings per dir/subdir. usefull for auto commit/push vimwiki
@@ -28,7 +25,6 @@ plugins=(
     [dirsettings]='https://github.com/chazy/dirsettings.git'
     [vim-airline]='https://github.com/vim-airline/vim-airline'
     [vim-fugitive]='https://github.com/tpope/vim-fugitive.git'
-    [vim-arduino-syntax]='https://github.com/sudar/vim-arduino-syntax.git'
     [ale]='https://github.com/w0rp/ale.git'
     [supertab]='https://github.com/ervandew/supertab.git'
     [ack-vim]='https://github.com/mileszs/ack.vim.git'
@@ -43,21 +39,31 @@ plugins=(
     [vim-browser-search]='https://github.com/voldikss/vim-browser-search.git'
     # Run commands in the background - mostly for running a markdown viewer
     # while editing the MD file in vim. Also see: https://github.com/tpope/vim-dispatch
-    [vim-dispatch]='https://tpope.io/vim/dispatch.git'
+    # NOTE: This has been replaced by the `asynrun` plugin
+    #[vim-dispatch]='https://tpope.io/vim/dispatch.git'
     # CSV managment. Also see https://vimtricks.com/p/vim-csv-files/
     [rainbow_csv]='https://github.com/mechatroner/rainbow_csv.git'
     # Easy swap windows/buffers in vim splits
     [vim-windowswap]='https://github.com/wesQ3/vim-windowswap.git'
-    # Better color scheme, especially for diff views
-    [apprentice]='https://github.com/romainl/Apprentice.git'
     # Distraction free writing or presentation - also see the presenter.vim plugin
     [goyo]='https://github.com/junegunn/goyo.vim.git'
     # Line commenter and uncommenter by Tim Pope
     [vim-commentry]='https://github.com/tpope/vim-commentary.git'
-    # Running processes asynchronously in vim
+    # Running processes asynchronously in vim - replaces `vim-dispatch` above
     [asyncrun]='https://github.com/skywind3000/asyncrun.vim.git'
+    #### File Type Support and Syntax Highlighting plugins ####
+    [vim-openscad]='https://github.com/sirtaj/vim-openscad.git'
+    [vim-arduino-syntax]='https://github.com/sudar/vim-arduino-syntax.git'
     # Gcode Syntax highlighting
     [gcode]='https://github.com/wilriker/gcode.vim.git'
+    [vim-markdown]='https://github.com/preservim/vim-markdown.git'
+    [vim-markdown-toc]='https://github.com/ajorgensen/vim-markdown-toc.git'
+    [python-syntax]='https://github.com/vim-python/python-syntax.git'
+    [vim-json]='https://github.com/elzr/vim-json.git'
+    #### Color Schemes ####
+    # Better color scheme, especially for diff views
+    [apprentice]='https://github.com/romainl/Apprentice.git'
+    [papercolor-theme]='https://github.com/NLKNguyen/papercolor-theme.git'
 )
 
 # Include any system local plugins found. We will source the
