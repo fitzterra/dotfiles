@@ -1,6 +1,6 @@
 [user]
-    name = Tom Coetser
-    email = tom.coetser@kazang.com
+	name = Tom Coetser
+	email = fitzterra@icave.net
 [credential]
     helper = cache --timeout=3600
 [alias]
