@@ -2,7 +2,7 @@
 " vim-markdown plugin.
 " Disable folding completely.
 " Try `:help vim-markdown-disable-folding`
-let g:vim_markdown_folding_disabled = 1
+"let g:vim_markdown_folding_disabled = 1
 
 " To previeww the markdown file, the following is required:
 " grip: https://github.com/joeyespo/grip
