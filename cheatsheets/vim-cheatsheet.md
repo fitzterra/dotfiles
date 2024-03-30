@@ -112,3 +112,8 @@ You have a file open in another tab and want it in the local tab as split:
     * Lower: `gu`
 * Try `:help gu` for more options
 
+## Open a file in a split window
+* For vertical split: `:vs[plit] path/to/file`
+    * To make the split window to the right: `:set splitright`
+* For horizontal split: `:split path/to/file`
+    * To make the split window below: `set splitbelow`
