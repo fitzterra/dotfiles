@@ -64,6 +64,7 @@ plugins=(
     # Better color scheme, especially for diff views
     [apprentice]='https://github.com/romainl/Apprentice.git'
     [papercolor-theme]='https://github.com/NLKNguyen/papercolor-theme.git'
+    [iceberg]='https://github.com/cocopon/iceberg.vim.git'
 )
 
 # Include any system local plugins found. We will source the

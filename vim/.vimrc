@@ -51,7 +51,8 @@ syntax on
 " Set a color scheme
 "colorscheme desert
 "colorscheme apprentice
-colorscheme PaperColor
+"colorscheme PaperColor
+colorscheme iceberg
 
 " Some more things we want...
 set nocompatible        " Required by vim-wiki, nd should be set fairly early on
