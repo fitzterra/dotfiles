@@ -60,6 +60,7 @@ plugins=(
     [vim-markdown-toc]='https://github.com/ajorgensen/vim-markdown-toc.git'
     [python-syntax]='https://github.com/vim-python/python-syntax.git'
     [vim-json]='https://github.com/elzr/vim-json.git'
+    [vim-mermaid]='https://github.com/chazmcgarvey/vim-mermaid.git'
     #### Color Schemes ####
     # Better color scheme, especially for diff views
     [apprentice]='https://github.com/romainl/Apprentice.git'
