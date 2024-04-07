@@ -48,8 +48,8 @@ syntax on
 "    \   guisp=Red
 "  augroup END
 
-# We prefer a dark background and dark color scheme. Ensure that this is the
-# case no matter where we start (g)vim
+" We prefer a dark background and dark color scheme. Ensure that this is the
+" case no matter where we start (g)vim
 set background=dark
 
 " Set a color scheme
