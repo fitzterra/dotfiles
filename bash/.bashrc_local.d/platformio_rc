@@ -1,6 +1,18 @@
 # Add platformio python virtual env bin dir to the path if it is found.
 # This is if it was installed using the install script from:
 # https://docs.platformio.org/en/latest/core/installation.html#installer-script
+#
+# NOTE:
+#  We leave this disabled otherwise it makes these changes system wide and can
+#  potentially make the pio python the default if no other python is installed.
+#  A better option is to use direnv to set this up for any project that needs
+#  to run under pio.
+#  This file can be copied to the project dir and renamed `.envrc` and then run
+#  `direnv allow` in the project dir to activate this environment.
+#  Doing so will enanle pio only while in that project dir.
+#  Remember to first comment out the return statements below
+return
+
 PIO_VENV_BIN=~/.platformio/penv/bin
 if [ -d $PIO_VENV_BIN ]; then
     export PATH=${PATH}:${PIO_VENV_BIN}
