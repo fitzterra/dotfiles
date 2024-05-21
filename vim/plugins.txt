@@ -54,6 +54,7 @@ plugins=(
     #### File Type Support and Syntax Highlighting plugins ####
     [vim-openscad]='https://github.com/sirtaj/vim-openscad.git'
     [vim-arduino-syntax]='https://github.com/sudar/vim-arduino-syntax.git'
+    [edgedb-vim]='https://github.com/edgedb/edgedb-vim'
     # Gcode Syntax highlighting
     [gcode]='https://github.com/wilriker/gcode.vim.git'
     [vim-markdown]='https://github.com/preservim/vim-markdown.git'
