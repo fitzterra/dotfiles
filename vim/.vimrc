@@ -83,6 +83,11 @@ set splitbelow          " Always put new horizontal split windows below the curr
 " Make folding available but leave it manual unless overridden by a syntax file
 set foldmethod=manual
 set foldcolumn=3
+" Not sure how this works with the foldmethod above, but the idea is to set the
+" foldmethod for the local buffer to use it's designated syntax foldmethod.
+" This auto folds C and C++ files for example since a fold handler for these
+" are already present.
+setlocal foldmethod=syntax
 " This is when syntax highlighting gets screwed up with folding large files.
 " Fix it with Shift-u     See: https://vi.stackexchange.com/a/2174 
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
