@@ -59,7 +59,6 @@ plugins=(
     [gcode]='https://github.com/wilriker/gcode.vim.git'
     [vim-markdown]='https://github.com/preservim/vim-markdown.git'
     [vim-markdown-toc]='https://github.com/ajorgensen/vim-markdown-toc.git'
-    [python-syntax]='https://github.com/vim-python/python-syntax.git'
     [vim-json]='https://github.com/elzr/vim-json.git'
     [vim-mermaid]='https://github.com/chazmcgarvey/vim-mermaid.git'
     #### Color Schemes ####
