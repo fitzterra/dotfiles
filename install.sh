@@ -16,6 +16,13 @@ export ME=$(basename $0)
 # the -C command line option
 ASK=no
 
+# Indicates how to handle sub module checking.
+# Could be one of:
+#  * check - checks if submodules have been initialized and updated: default
+#  * only  - only checks submodules and exits afterwards
+#  * skip  - submodule checking is completely skipped
+SUBMODS=check
+
 # Where to install to. Can be overridden by environment variable
 export INSTALLTARGET=${INSTALLTARGET:=~/}
 
@@ -118,12 +125,52 @@ options:
     -C              Ask to confirm for certain action that affect the system
                     as a whole. Default is for unattended install, so no
                     confirmations are asked for.
+    -s              Check submodules only and exit on completion.
+    -S              Skip submodule check completely.
     -h              Show this help
 
 environment variables:
     INSTALLTARGET   Target installation directory. Defaults to [$INSTALLTARGET]
-    
+
 _EOU_
+}
+
+##--
+# Checks if any git sub modules needs to be initialised/updated.
+# It is easy to forget to do this after a clone if --recurse-submodules have
+# not been specified for the clone command
+##--
+function checkSubmodules () {
+    echo "Checking submodules..."
+
+    git submodule status | (
+        # We set this inside this block to be used as the return value for the
+        # parent to test
+        must_init=0
+
+        # The submodule status output is 3 parts: hash, submodule and the git
+        # describe output for the checkout
+        while read hash mod desc; do
+            # If the desc value is empty, the submodule needs to be initialised
+            if [[ -z $desc ]]; then
+                echo "   Submodule $mod needs to be initialiesd."
+                must_init=1
+            fi
+        done
+        # Use $must_init as the return code
+        return $must_init
+    )
+
+    [[ $? -eq 0 ]] && return
+
+    prompt="One or more submodules need to be initialised. Do you want to do this now?"
+    if ! YesNo "$prompt"; then
+        echo "Functionality will be limited until submodules are initialized."
+        return
+    fi
+
+    git submodule init
+    git submodule update
 }
 
 ##--
@@ -225,6 +272,7 @@ function cleanup() {
     done
 }
 
+############################## MAIN ##################################
 # Get all available components
 getComponents
 
@@ -250,6 +298,12 @@ while [ "$1" != "" ]; do
         -C)
             ASK=yes
             ;;
+        -s)
+            SUBMODS=only
+            ;;
+        -S)
+            SUBMODS=skip
+            ;;
         clean)
             CLEANUP='1'
             ;;
@@ -258,6 +312,12 @@ while [ "$1" != "" ]; do
     esac
     shift
 done
+
+# Check git submodules
+if [[ $SUBMODS != "skip" ]]; then
+    checkSubmodules || exit 1
+    [[ $SUBMODS == "only" ]] && exit 0
+fi
 
 # Use all components if none were specified
 COMPLIST=${COMPLIST:-"${!COMPS[*]}"}
