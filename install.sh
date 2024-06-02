@@ -46,6 +46,30 @@ echo "Package installer: $PKG_INSTALLER"
 
 ##~~ Functions ~~##
 
+###
+# Displays a question and accepts only yes/no input replies.
+# 
+# Args:
+#   $1 : The prompt to display
+#
+# Returns:
+#  0 for Yes or 1 for No
+###
+function YesNo () {
+    prompt="$1 (y/n): "
+    ans=
+
+    while [[ $ans != 'y' && $ans != 'n' ]]; do
+        read -p "$prompt" -N 1 ans
+        echo ""
+        case $ans in
+            "y" | "Y" ) return 0 ;;
+            "n" | "N" ) return 1 ;;
+        esac
+        echo "Invalid response. Please answer with y or n only."
+    done
+}
+
 # Check that stow is installed, and if not ask to install it
 function checkStow () {
     STOWER=stow
