@@ -1,10 +1,10 @@
 [user]
 	name = Tom Coetser
-	email = tom.coetser@kazang.com
+	email = fitzterra@icave.net
 [credential]
-	helper = cache --timeout=3600
+    helper = cache --timeout=3600
 [alias]
-	civ = commit -v
+    civ = commit -v
     gr = log --graph --full-history --all --color --pretty=tformat:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m"
     st = status
     logo = log --oneline
@@ -28,21 +28,31 @@
     # Open all files changed since REVIEW_BASE in Vim tabs
     # Then, run fugitive's :Gdiff in each tab, and finally
     # tell vim-gitgutter to show +/- for changes since REVIEW_BASE
-    review = !gvim -p $(git files) +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+    review = !gvim -R -p $(git files) +\"tabdo Gvdiffsplit $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 
     # Same as the above, except specify names of files as arguments,
     # instead of opening all files:
     # git reviewone foo.js bar.js
-    reviewone = !gvim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+    reviewone = !gvim -R -p +\"tabdo Gvdiffsplit $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 [push]
-	default = simple
+    default = simple
 [core]
-	excludesfile = ~/.gitignore-global
+    excludesfile = ~/.gitignore-global
 [github]
-	user = fitzterra
+    user = fitzterra
 [diff]
-	tool = vimdiff
+    tool = vimdiff
 [difftool]
     prompt = false
 [commit]
-	verbose = True
+    verbose = True
+[safe]
+	directory = /opt/homebrew
+[filter "lfs"]
+    # Make it easier to work with git large file support
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main

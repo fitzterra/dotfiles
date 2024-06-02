@@ -11,12 +11,13 @@ My Vim Cheat Sheet
 6. [Visual mode cheats:](#visual-mode-cheats)
 7. [Sum numbers in highlighted block:](#sum-numbers-in-highlighted-block)
 8. [Insert full path of current file at cursor position while in insert mode](#insert-full-path-of-current-file-at-cursor-position-while-in-insert-mode)
-9. [Center text within visual selection](#center-text-within-visual-selection)
-10. [Delete lines matching a regex](#delete-lines-matching-a-regex)
-11. [Open tab in local window split](#open-tab-in-local-window-split)
-12. [Reload vim config](#reload-vim-config)
-13. [Execute normal mode commands from insert mode](#execute-normal-mode-commands-from-insert-mode)
-14. [Change to, or toggle, upper or lower case](#change-to-or-toggle-upper-or-lower-case)
+9. [Copy current file name to clipboard](#copy-current-file-name-to-clipboard)
+10. [Center text within visual selection](#center-text-within-visual-selection)
+11. [Delete lines matching a regex](#delete-lines-matching-a-regex)
+12. [Open tab in local window split](#open-tab-in-local-window-split)
+13. [Reload vim config](#reload-vim-config)
+14. [Execute normal mode commands from insert mode](#execute-normal-mode-commands-from-insert-mode)
+15. [Change to, or toggle, upper or lower case](#change-to-or-toggle-upper-or-lower-case)
 
 
 ## External cheatsheets
@@ -56,6 +57,14 @@ Made available via the `vissum` plugin:
 ## Insert full path of current file at cursor position while in insert mode
 * `C-r%`
 * Also see: https://vim.fandom.com/wiki/Insert_current_filename
+
+## Copy current file name to clipboard
+This is useful when needing to paste the current file name in another
+application. The idea is to copy the file name from the `%` register to the 
+clipboard register `*`. See here for more: https://coderwall.com/p/7jjb9g/vim-copy-file-name-to-clipboard
+Also do `:help registers`
+* `:let @* = @%`              # Copies full path to clipboard
+* :let @* = expand("%:t")   # Copies only file name
 
 ## Center text within visual selection
 Provided by `plugin/center-visual-test.vim`
@@ -103,3 +112,8 @@ You have a file open in another tab and want it in the local tab as split:
     * Lower: `gu`
 * Try `:help gu` for more options
 
+## Open a file in a split window
+* For vertical split: `:vs[plit] path/to/file`
+    * To make the split window to the right: `:set splitright`
+* For horizontal split: `:split path/to/file`
+    * To make the split window below: `set splitbelow`

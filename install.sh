@@ -1,12 +1,20 @@
-#/bin/bash
+#/usr/bin/env bash
 #
 # Script to install and manage dotfiles
+#
+# The shebang path above is to also support installing a newer version of bash
+# on MacOS via brew, and the new version is not installed as /bin/bash
 
 ##~~ Variables ~~##
 # We export the variables so that the pre/post setup/remove scripts have access
 # to them.
-export MYDIR=$(realpath -s $(dirname $0))
+export MYDIR=$(cd $(dirname $0) && pwd)
 export ME=$(basename $0)
+
+# By default we want the install to be unattended, but allow for asking certain
+# questions that affect the system as a whole if the user wants it. This is via
+# the -C command line option
+ASK=no
 
 # Where to install to. Can be overridden by environment variable
 export INSTALLTARGET=${INSTALLTARGET:=~/}
@@ -16,30 +24,52 @@ export INSTALLTARGET=${INSTALLTARGET:=~/}
 # README.component files in their respective dirs.
 declare -A COMPS
 
+# Determine the package installer to support both Debian based systems as well
+# as MacOS. This is very crude in that we first check if apt-get is available,
+# and if not, we check for brew. Whichever was found is the default installer.
+PKG_INSTALLER=
+PKG_INSTALLER_OPTS="install"
+for i in apt-get brew; do
+    if which $i &>/dev/null; then
+        PKG_INSTALLER=$i
+        if [[ $i = "apt-get" ]]; then
+            # Apt-get needs to be run as root
+            PKG_INSTALLER="sudo $i"
+            # We always for yes for apt installs
+            PKG_INSTALLER_OPTS="-y $PKG_INSTALLER_OPTS"
+        fi
+    fi
+done
+[[ -z $PKG_INSTALLER ]] && echo "Could not find a package installer.  Exiting..." && exit 1
+
+echo "Package installer: $PKG_INSTALLER"
+
 ##~~ Functions ~~##
 
-# Check that xstow is installed, and if not ask to install it
-function checkXstow () {
-    STOWER=xstow
+# Check that stow is installed, and if not ask to install it
+function checkStow () {
+    STOWER=stow
 
     if which $STOWER >/dev/null; then
         return
     fi
 
-    read -p "The '$STOWER' command is required. Install it now? [Y/n]: " -n 1 ans
-    # Add a newline to the output only if enter was not pressed
-    [ "$ans" != "" ] && echo
-    # Set default answer to yes if enter was pressed and translate to lower case
-    ans=$(echo ${ans:-y} | tr 'A-Z' 'a-z')
+    if [[ $ASK = "yes" ]]; then
+        read -p "The '$STOWER' command is required. Install it now? [Y/n]: " -n 1 ans
+        # Add a newline to the output only if enter was not pressed
+        [ "$ans" != "" ] && echo
+        # Set default answer to yes if enter was pressed and translate to lower case
+        ans=$(echo ${ans:-y} | tr 'A-Z' 'a-z')
 
-    # We can not continue if we can not install xstow
-    if [ "$ans" = "n" ]; then
-        echo "Using this dotfiles manager requires $STOWER. Can not continue, sorry."
-        exit 1
+        # We can not continue if we can not install $STOWER
+        if [ "$ans" = "n" ]; then
+            echo "Using this dotfiles manager requires $STOWER. Can not continue, sorry."
+            exit 1
+        fi
     fi
 
     echo -e "Attempting to install $STOWER...\n"
-    sudo apt-get install $STOWER
+    $PKG_INSTALLER $PKG_INSTALLER_OPTS $STOWER
 
     if [ $? -ne 0 ]; then
         echo -e "\nCan not continue until this is fixed. Sorry..."
@@ -52,16 +82,18 @@ function usage() {
 
 Installs or cleans up, all or only certain, dotfile components.
 
-Usage: $ME [prompt|clean] [-c component] [-h]
+Usage: $ME [clean] [-c component] [-h]
 
 commands:
-    prompt  Interactivley set command promt color
     clean   Will clean up instead of install
 
 options:
     -c comp,comp... Comma seperated list of components to install or clean. If
                     not supplied, all components are selected. Use -c list to
                     get a list of available components.
+    -C              Ask to confirm for certain action that affect the system
+                    as a whole. Default is for unattended install, so no
+                    confirmations are asked for.
     -h              Show this help
 
 environment variables:
@@ -76,10 +108,12 @@ _EOU_
 ##--
 function getComponents() {
     # Components are all dirs containing a README.component file
-    for c in $(find . -maxdepth 2 -name README.component); do
-        comp=$(dirname $c | sed 's@^\./@@')
+    for c in $(find $MYDIR -maxdepth 2 -name README.component); do
+        comp=$(dirname $c | sed 's@^.*/@@')
         COMPS[$comp]=$(cat $c)
     done
+
+    echo "Components found: ${!COMPS[@]}"
 }
 
 ##--
@@ -94,40 +128,33 @@ function showComponents() {
 }
 
 ##--
-# Install system files.
-# Extepcts a source dir name containing the system files to install. The files
-# in this source dir are copied to the root '/' dir, preserving the dir
-# hierarchy the files live in under the source dir.
-# Any existing files in the target location will be OVERWRITTEN!
-# Also note that tre dir tree to which files are being coepied off the root
-# ('/' ), must exist already. Trying to install a system file to the '/foo/bar'
-# dir without these dirs already existing will result in an error.
-function sysInstall() {
-    SRC=$1
-    # Ensure that SRC ends with one and only one trailing slash
-    SRC="${SRC%%/*}/"
+# Creates ~/.config if it does not exist as a dir.
+# Some of the components has config files or dirs that needs to go into
+# ~/.config - if this dir does not exist already when such a component is
+# installed, stow will link the .config dir in the component to ~/.config
+# instead of the component subdir inside .config.
+# This means that anything ne installed in ~/.config is going to use the linked
+# .config dir which is now inside the component dir in the repo.
+#--
+function setupDotConfig() {
+    CONF=~/.config
 
-    # List of files to ignore. This could later be a file in the dir which read
-    # and parsed into the structure used here.
-    # For now, this is a string consisting of one or more file names separated
-    # by commas (no spaces around the commas).
-    # It's very crude at the moment, so extend as required.
-    # Trailing comma is required.
-    IGNORE_LIST="README.component,colors.sh,host_prompt_colors.dist,"
+    # It must be a dir, but not a symlink to a dir
+    if [[ -d $CONF && ! -L $CONF ]]; then
+        # It's a dir, so all good
+        return
+    fi
 
-    # Find all files in the source dir, excluding any files or dirs that are
-    # hidden.
-    for f in $(find "$SRC" -type f -not -path '*/\.*'); do
-        # Ignore it? Take the file name only and see if it exists in
-        # IGNORE_LIST with a trailing comma to the name.
-        if (echo $IGNORE_LIST | grep -q "$(basename $f),"); then
-            continue
-        fi
+    # If it exists, it means it's not a dir, so we have a problem
+    if [[ -e $CONF ]]; then
+        echo "Found a $CONF entry which is not a dir."
+        echo "Some components requires $CONF to exist as a dir, so we"\
+             "can not continue at this point."
+        exit 3
+    fi
 
-        # The target is the found file with the source dir part replaced by '/'
-        tgt=${f/${SRC}/\/}
-        sudo cp -vf $f $tgt
-    done
+    # Create it
+    mkdir -v $CONF || exit 4
 }
 
 ##--
@@ -135,104 +162,43 @@ function sysInstall() {
 ##-
 function install() {
     for c in $@; do
-        # The `system` component gets installed as sudo since these are
-        # expected to be system level files. For other components, $SUDO is
-        # empty and has no effect on the subsequent command.
-        [ "$c" == "system" ] && SUDO="sudo" || SUDO=""
+        echo -e "\n++++++++++++++++++++\nInstalling component: $c"
 
         # Run any pre-setup scripts
         if [ -x ${c}/_pre_setup.sh ]; then
-            $SUDO ${c}/_pre_setup.sh || exit 2
+            ${c}/_pre_setup.sh || exit 2
         fi
 
-        # Include any component specific xstow.ini files if present
-        COMPCONF=${c}/xstow.ini
-        [ -f $COMPCONF ] && COMPCONF="-F $COMPCONF" || COMPCONF=""
-
-        # Stow all files. The `system` component is installed using the
-        # sysInstall function.
-        if [ "$c" == "system" ]; then
-            sysInstall $c || exit 1
-        else
-            xstow -v $COMPCONF -t $INSTALLTARGET $c || exit 1
-        fi
+        # Stow all files.
+        stow -v -d $MYDIR -t $INSTALLTARGET $c || exit 1
 
         # Run any post-setup scripts
         if [ -x ${c}/_post_setup.sh ]; then
-            $SUDO ${c}/_post_setup.sh || exit 2
+            ${c}/_post_setup.sh || exit 2
         fi
     done
 }
 
 ##--
 # Does a cleanup - components to install are passed as arguments
-# Cleanup of the system component is ignored for now
 ##-
 function cleanup() {
     for c in $@; do
-        if [ "$c" == "system" ]; then
-            echo "Ignoring 'system' component in cleanup..."
-        fi
+        echo -e "\n++++++++++++++++++++\nCleaning up component: $c"
 
         # Run any pre-remove scripts
         if [ -x ${c}/_pre_remove.sh ]; then
             ${c}/_pre_remove.sh || exit 2
         fi
 
-        # Include any component specific xstow.ini files if present
-        COMPCONF=${c}/xstow.ini
-        [ -f $COMPCONF ] && COMPCONF="-F $COMPCONF" || COMPCONF=""
-
-        xstow -v -D $COMPCONF -t $INSTALLTARGET $c || exit 1
+        # Remove the stowed files.
+        stow -v -d $MYDIR -t $INSTALLTARGET -D $c || exit 1
 
         # Run any post-remove scripts
         if [ -x ${c}/_post_remove.sh ]; then
-            $SUDO ${c}/_post_remove.sh || exit 2
+            ${c}/_post_remove.sh || exit 2
         fi
     done
-}
-
-##--
-# Allows interactively setting the prompt colors
-##--
-function setPrompt() {
-    fgc=""
-    bgc=""
-    cOff="\e[0m"
-
-    fgpt="\e[38;5;"
-    bgpt="\e[48;5;"
-
-    [ -z "$fgc" ] && pcol="" || pcol="${fgpt}${fgc}m"
-    [ -z "$bgc" ] && pcol="${pcol}" || pcol="${pcol}${bgpt}${bgc}m"
-
-    while true; do
-        system/colors.sh
-        prompt="[${USER}@${pcol}$(hostname)${cOff}:$(basename $(pwd))]$"
-        echo -en "${prompt} "
-        read -p "Background color (enter for none): " bgc
-        read -p "Foregound color (enter for none): " fgc
-
-        [ -z "$fgc" ] && pcol="" || pcol="${fgpt}${fgc}m"
-        [ -z "$bgc" ] && pcol="${pcol}" || pcol="${pcol}${bgpt}${bgc}m"
-
-        prompt="[${USER}@${pcol}$(hostname)${cOff}:$(basename $(pwd))]$"
-        echo -en "${prompt} "
-        read -p "<-- Enter 'c' to change, enter to accept: " ans
-        [ -z "$ans" ] && break
-    done
-
-    # The \[ and \] symbols allow bash to understand which parts of the
-    # prompt cause no cursor movement; without them, lines will wrap
-    # incorrectly. See: https://mywiki.wooledge.org/BashFAQ/037
-    [ -n "$pcol" ] && pcol="\[${pcol}\]" && cOff="\[${cOff}\]"
-
-    cat > system/etc/host_prompt_colors << __EOF__
-# Host prompt set using: 'install.sh prompt' from dotfiles repo
-prompt: ${pcol}\h${cOff}
-__EOF__
-
-    echo -e "\nYou should run '$ME -c system' now to set the new system prompt.\n"
 }
 
 # Get all available components
@@ -257,8 +223,8 @@ while [ "$1" != "" ]; do
                 COMPLIST="$COMPLIST $c"
             done
             ;;
-        prompt)
-            SETPROMPT=1
+        -C)
+            ASK=yes
             ;;
         clean)
             CLEANUP='1'
@@ -275,14 +241,21 @@ COMPLIST=${COMPLIST:-"${!COMPS[*]}"}
 # I have to be run from my install dir
 cd $MYDIR
 
-# We need xstow
-checkXstow
+# We need a stower
+checkStow
+
+# Depending on the stower, it may not like comments in .stowrc, so we save
+# .stowrc as dot.stowrc where we allow comments to make things easier to
+# understand. This is where we then create .stowrc from dot.stowrc by
+# stripping all comments from dot.stowrc and then saving it as .stowrc.
+grep -v "#" dot.stowrc > .stowrc
+
 
 # Do the work
-if [ "$SETPROMPT" = "1" ]; then
-    setPrompt
-elif [ "$CLEANUP" = "1" ]; then
+if [ "$CLEANUP" = "1" ]; then
     cleanup $COMPLIST
 else
+    # We need ~/.config to be set up correctly
+    setupDotConfig
     install $COMPLIST
 fi

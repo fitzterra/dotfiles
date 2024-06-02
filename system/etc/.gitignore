@@ -1,3 +1,0 @@
-# We never want to commit the host_prompt_colors file since it can be generated
-# from `install.sh prompt`
-host_prompt_colors

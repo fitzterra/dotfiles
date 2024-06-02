@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # This script will clean up all bundles and other auto generated files for vim
 # to ensure we clean up properly when uninstalling dotfiles
@@ -9,4 +9,6 @@
 
 # Remove all dirs found in the bundle dir
 BUNDLE=${INSTALLTARGET}/.vim/bundle
-find $BUNDLE -maxdepth 1 ! -path $BUNDLE -type d -exec rm -rf {} \;
+if [[ -d $BUNDLE ]]; then
+    find $BUNDLE -maxdepth 1 ! -path $BUNDLE -type d -exec rm -rf {} \;
+fi

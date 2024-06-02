@@ -6,14 +6,14 @@
 # files can be installed without merging their new config changes to our
 # local changes on package upgrades.
 
+# Set vi key bindings
+set -o vi
+
 # First source any system wide local changes
 [ -f /etc/bash.rclocal ] && . /etc/bash.rclocal
 
 # Any further user specific local changes can be made here
 export PATH=${PATH}:${HOME}/bin:${HOME}/.local/bin
-
-# While we're at it, also make the sudo alias 's' auto complete
-complete -F _root_command s
 
 # Source all *_rc files in .bashrc_local.d/ if it is present - can't use the -d
 # test here because this should be symlink and not a dir

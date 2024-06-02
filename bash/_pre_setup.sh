@@ -1,11 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
-# Adds or removes the bash hook to .bashrc
+# Adds or removes the bash hook to .bashrc, and also creates $INSTALLTARGET/bin
+# if it does not already exist.
 # This script is called _pre_setup.sh which indicates that when called, it
 # should try to add the hook.
 # This same script can also be used to remove the hook, by creating a symlink
 # link to it called _post_remove.sh. If called _post_remove.sh, then the hook
 # will be removed.
+# On MacOS (Montery onwards at least) there is no .bashrc file, but it will be
+# created if it does not exist.
 
 # The following environment variables are inherited from our caller:
 # INSTALLTARGET: The dir to which we are installing. Usually the user's home dir
@@ -33,10 +36,9 @@ $SIGe -- do not remove - hook end
 
 __HOOK__
 )
-    # Does the rc file exist?
+    # Point to the RC file we'll be modifying
     RCFILE=${INSTALLTARGET}/.bashrc
-    [ ! -f "$RCFILE" ] && echo "Does not exist: $RCFILE" && return
-	
+
     # Remove?
     if [ "$1" = "-d" ]; then
         echo -n "Removing hook from $RCFILE: ..."
@@ -46,7 +48,7 @@ __HOOK__
         # between the start and end sigs. This works fine unless the end
         # sig is not found in which case all the lines from start to end
         # sig will be deleted - how do you make sed NOT to the job unless
-        # the las line spec is also found?
+        # the last line spec is also found?
         # My dirty solution is to use sed to match and output only the
         # block between the sigs. This output is then grep'ed for the end
         # sig. If found, we know the block is good and we can do another
@@ -67,6 +69,12 @@ __HOOK__
 
         echo "$HOOK" >> $RCFILE || exit 1
         echo " done."
+
+        # Create ~/bin if needed
+        BINDIR=${INSTALLTARGET}/bin
+        # Note trailing echo is required to ensure a 0 return code to indicate
+        # that it is not an error if bin exists.
+        [[ ! -d  $BINDIR ]] && mkdir -v $BINDIR || echo "$BINDIR already exists."
     fi
 }
 

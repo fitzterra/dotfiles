@@ -1,0 +1,3 @@
+# Make the sudo alias 's' auto complete
+complete -F _root_command s
+

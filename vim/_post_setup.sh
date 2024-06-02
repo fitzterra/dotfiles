@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # For management of vim plugins, we use pathogen - see _pre_setup.sh
 # This script is run after all vim dotfiles have been installed and pathogen has
@@ -15,7 +15,7 @@ THISDIR=$(dirname $0)
 
 # If there is no plugins.txt file, then we can exit
 PLUGINS=${THISDIR}/plugins.txt
-[ ! -f $PLUGINS ] && echo "No vim plugins list found." && exit 0
+[[ ! -f $PLUGINS ]] && echo "No vim plugins list found." && exit 0
 
 # Source the plugins, which will bring in the $plugins array
 source $PLUGINS

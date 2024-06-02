@@ -2,50 +2,61 @@
 " Local Vim config
 "
 
+" Setup pathogen for installing plugins in ~/.vim/bundle
+execute pathogen#infect()
+execute pathogen#helptags()
+
 " We want syntax highligting on
 syntax on
 
 " Set less eye-injuring colors for spell errors on terminal.
 " See here: https://vi.stackexchange.com/a/21168
 " Force to use underline for spell check results
-augroup SpellUnderline
-  autocmd!
-  autocmd ColorScheme *
-    \ highlight SpellBad
-    \   cterm=Underline
-    \   ctermfg=NONE
-    \   ctermbg=NONE
-    \   term=Reverse
-    \   gui=Undercurl
-    \   guisp=Red
-  autocmd ColorScheme *
-    \ highlight SpellCap
-    \   cterm=Underline
-    \   ctermfg=NONE
-    \   ctermbg=NONE
-    \   term=Reverse
-    \   gui=Undercurl
-    \   guisp=Red
-  autocmd ColorScheme *
-    \ highlight SpellLocal
-    \   cterm=Underline
-    \   ctermfg=NONE
-    \   ctermbg=NONE
-    \   term=Reverse
-    \   gui=Undercurl
-    \   guisp=Red
-  autocmd ColorScheme *
-    \ highlight SpellRare
-    \   cterm=Underline
-    \   ctermfg=NONE
-    \   ctermbg=NONE
-    \   term=Reverse
-    \   gui=Undercurl
-    \   guisp=Red
-  augroup END
+"augroup SpellUnderline
+"  autocmd!
+"  autocmd ColorScheme *
+"    \ highlight SpellBad
+"    \   cterm=Underline
+"    \   ctermfg=NONE
+"    \   ctermbg=NONE
+"    \   term=Reverse
+"    \   gui=Undercurl
+"    \   guisp=Red
+"  autocmd ColorScheme *
+"    \ highlight SpellCap
+"    \   cterm=Underline
+"    \   ctermfg=NONE
+"    \   ctermbg=NONE
+"    \   term=Reverse
+"    \   gui=Undercurl
+"    \   guisp=Red
+"  autocmd ColorScheme *
+"    \ highlight SpellLocal
+"    \   cterm=Underline
+"    \   ctermfg=NONE
+"    \   ctermbg=NONE
+"    \   term=Reverse
+"    \   gui=Undercurl
+"    \   guisp=Red
+"  autocmd ColorScheme *
+"    \ highlight SpellRare
+"    \   cterm=Underline
+"    \   ctermfg=NONE
+"    \   ctermbg=NONE
+"    \   term=Reverse
+"    \   gui=Undercurl
+"    \   guisp=Red
+"  augroup END
+
+" We prefer a dark background and dark color scheme. Ensure that this is the
+" case no matter where we start (g)vim
+set background=dark
 
 " Set a color scheme
-colorscheme desert
+"colorscheme desert
+"colorscheme apprentice
+"colorscheme PaperColor
+colorscheme iceberg
 
 " Some more things we want...
 set nocompatible        " Required by vim-wiki, nd should be set fairly early on
@@ -66,10 +77,17 @@ set modeline			" Allow support for modelines in files
 set hlsearch			" Highlight search results
 set conceallevel=2      " Specifically in markdown, conceals the markup around text
 set tw=79               " Limit lines to 79 chars long by default
+set splitright          " Always put new vertical split windows to the right
+set splitbelow          " Always put new horizontal split windows below the current window
 
 " Make folding available but leave it manual unless overridden by a syntax file
 set foldmethod=manual
 set foldcolumn=3
+" Not sure how this works with the foldmethod above, but the idea is to set the
+" foldmethod for the local buffer to use it's designated syntax foldmethod.
+" This auto folds C and C++ files for example since a fold handler for these
+" are already present.
+setlocal foldmethod=syntax
 " This is when syntax highlighting gets screwed up with folding large files.
 " Fix it with Shift-u     See: https://vi.stackexchange.com/a/2174 
 nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
@@ -86,10 +104,13 @@ map <C-Tab> :tabnext<CR>
 imap <C-Tab> <Esc>:tabnext<CR>
 map <C-S-Tab> :tabprevious<CR>
 imap <C-S-Tab> <Esc>:tabprevious<CR>
-" Ctrl-T opens a new tab with the file editor in the current dir in both
+" Ctrl-T opens a new empty tab normal and insert modes
+map <C-T> :tabnew<CR>
+imap <C-T> <Esc>:tabnew<CR>
+" Leader-t opens a new tab with the file editor in the current dir in both
 " normal and insert modes
-map <C-T> :tabnew .<CR>
-imap <C-T> <Esc>:tabnew .<CR>
+nnoremap <Leader>t :tabnew .<CR>
+nnoremap <Leader>T :Texplore<CR>
 " Allow moving tabs left and right with Ctrl-Shift-Left/Right arrow
 map <C-S-Left> :tabmove -1<CR>
 imap <C-S-Left> <Esc>:tabmove -1<CR>
@@ -105,10 +126,6 @@ if has("autocmd")
   filetype plugin indent on
 endif
 
-" Setup pathogen for installing plugins in ~/.vim/bundle
-execute pathogen#infect()
-execute pathogen#helptags()
-
 ">>>>>>>>>>>>> NetRW Settings <<<<<<<<<<<<<<"
 " Set the tree listing style from file browsing
 let g:netrw_liststyle= 3
@@ -123,12 +140,18 @@ else
     " as <C-_> ...
     nnoremap <C-_> :noh<CR>
 endif
-" Always enable spell
+" Always enable spell, and set a local spell file. The idea is that the
+" spellfile should normally be a hidden file in the project and can be ignored
+" by .gitignore in git repo
 set spell
+set spellfile=.vim-spellfile.add
 
 " Pretty format XML by pressing = on a selection
 " Adaption from http://vim.wikia.com/wiki/Pretty-formatting_XML option 2
 vnoremap = :!python -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"<CR>
+" Pretty format JSON by pressing + on a selection
+" Adaption from http://vim.wikia.com/wiki/Pretty-formatting_XML option 2
+vnoremap + :!python -c "import json, sys; print(json.dumps(json.load(sys.stdin), indent=4))"<CR>
 
 " Spacebar toggels a fold open/close
 nnoremap <space> za
@@ -172,6 +195,10 @@ endfun
 " Insert a Python debug trace line at the current cursor position.
 " Key combo is <ALT-SHIFT-d>
 autocmd FileType python nnoremap <buffer> <A-D> <Esc>Oimport ipdb; ipdb.set_trace()<Esc>
+" On MacOS I may have 'ALT' and OSX command keys swapped around, and then the
+" above does not work. For this reason \d is also mapped to setting up
+" debugging in Python files.
+autocmd FileType python nnoremap <buffer> <Leader>d <Esc>Oimport ipdb; ipdb.set_trace()<Esc>
 autocmd FileType python set foldmethod=indent
 " Open an ipython shell in a terminal when hitting \ip in normal more
 autocmd FileType python nnoremap <Leader>ip :term ++close ipython<CR>
@@ -179,7 +206,7 @@ autocmd FileType python nnoremap <Leader>ip :term ++close ipython<CR>
 autocmd FileType python map <buffer> <F5> :w<CR>:exec '!/usr/bin/env python' shellescape(@%, 1)<CR>
 " Rebuild the tags file - this is not Python specific, but we leave it here for
 " now.
-nnoremap <Leader>bt :!ctags -R .<CR>
+nnoremap <Leader>bt :AsyncRun ctags -R .<CR>
 
 ">>>>>>>>>>>>> Dot/Graphviz Files <<<<<<<<<<<<<<"
 " Compile the current graph. This requires the vim graphviz plugin from
