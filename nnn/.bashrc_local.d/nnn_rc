@@ -3,7 +3,7 @@
 
 
 # Only set this up if nnn is installed
-if [[ -n $(which nnn) ]]; then
+if type nnn; then
 
     NNN_CONFDIR="${XDG_CONFIG_HOME:-$HOME/.config}/nnn"
     NNN_PLUGDIR="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins"
