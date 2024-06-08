@@ -1,0 +1,6 @@
+Setup lazygit
+
+Will install Lazygit if possible. On Linux this is only supported via brew
+currently.
+If installed will set and alias named `lg` to run lazygit, which makes it just a
+bit quicker to start than having to type lazygit every time.

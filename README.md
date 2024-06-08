@@ -86,6 +86,10 @@ Notes
         * Does not need root privs
     * Default is to select `apt` first so will work on Debian based systems,
         and then `brew`. Since `apt` is not available on MacOS
+* Linuxbrew
+    * This is installed as new user `home/linuxbrew`
+    * How does this work on multiuser systems?
+    * Need to figure out how to clean it up
 ________
 This is my dotfiles repo. I think I should have done this a long time ago :-)
 
