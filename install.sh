@@ -6,6 +6,9 @@
 # on MacOS via brew, and the new version is not installed as /bin/bash
 
 ##~~ Variables ~~##
+# The OS we are running on
+OS=$(uname -o)
+
 # We export the variables so that the pre/post setup/remove scripts have access
 # to them.
 export MYDIR=$(cd $(dirname $0) && pwd)
@@ -31,25 +34,6 @@ export INSTALLTARGET=${INSTALLTARGET:=~/}
 # README.component files in their respective dirs.
 declare -A COMPS
 
-# Determine the package installer to support both Debian based systems as well
-# as MacOS. This is very crude in that we first check if apt-get is available,
-# and if not, we check for brew. Whichever was found is the default installer.
-PKG_INSTALLER=
-PKG_INSTALLER_OPTS="install"
-for i in apt-get brew; do
-    if which $i &>/dev/null; then
-        PKG_INSTALLER=$i
-        if [[ $i = "apt-get" ]]; then
-            # Apt-get needs to be run as root
-            PKG_INSTALLER="sudo $i"
-            # We always for yes for apt installs
-            PKG_INSTALLER_OPTS="-y $PKG_INSTALLER_OPTS"
-        fi
-    fi
-done
-[[ -z $PKG_INSTALLER ]] && echo "Could not find a package installer.  Exiting..." && exit 1
-
-echo "Package installer: $PKG_INSTALLER"
 
 ##~~ Functions ~~##
 
@@ -273,6 +257,12 @@ function cleanup() {
 }
 
 ############################## MAIN ##################################
+
+# Source package installer script to find the correct package installer based
+# on the system we're running on. We exit if no installer is found.
+source find_installer.sh || exit 1
+echo "Package installer: $PKG_INSTALLER"
+
 # Get all available components
 getComponents
 
