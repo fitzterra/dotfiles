@@ -1,0 +1,10 @@
+# RC file to setup lazygit
+# NOTE! We want this to be sourced AFTER the linuxbrew_rc, so we name it
+# starting with zz_*
+
+# Only set this up if lazygit is installed
+if type lazygit &> /dev/null; then
+    alias lg="$(which lazygit)"
+fi
+
+# vim: set syntax=sh:
