@@ -5,6 +5,12 @@
 # The shebang path above is to also support installing a newer version of bash
 # on MacOS via brew, and the new version is not installed as /bin/bash
 
+# Debug. Start as:
+# $ DEBUG=1 ./install.sh
+if [[ $DEBUG -eq 1 ]]; then
+    set -o xtrace
+fi
+
 ##~~ Variables ~~##
 # The OS we are running on
 OS=$(uname -o)
@@ -165,7 +171,7 @@ function getComponents() {
     # Components are all dirs containing a README.component file
     for c in $(find $MYDIR -maxdepth 2 -name README.component); do
         comp=$(dirname $c | sed 's@^.*/@@')
-        COMPS[$comp]=$(cat $c)
+        COMPS[$comp]=$(head -n 1 $c)
     done
 
     echo "Components found: ${!COMPS[@]}"
@@ -218,6 +224,14 @@ function setupDotConfig() {
 function install() {
     for c in $@; do
         echo -e "\n++++++++++++++++++++\nInstalling component: $c"
+
+        # If an _install.sh script is available, source it to allow installing
+        # this component if not already available.
+        if [[ -f ${c}/_install.sh ]]; then
+            # If install does not return success (0), we skip this component
+            # setup entirely
+            source ${c}/_install.sh || continue
+        fi
 
         # Run any pre-setup scripts
         if [ -x ${c}/_pre_setup.sh ]; then
@@ -323,7 +337,6 @@ checkStow
 # understand. This is where we then create .stowrc from dot.stowrc by
 # stripping all comments from dot.stowrc and then saving it as .stowrc.
 grep -v "#" dot.stowrc > .stowrc
-
 
 # Do the work
 if [ "$CLEANUP" = "1" ]; then
