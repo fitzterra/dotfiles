@@ -1,0 +1,4 @@
+Install and setup Homebrew for Linux
+
+This component will install Homebrew for Linux and set it up so that you can
+install apps from there for the local user.
