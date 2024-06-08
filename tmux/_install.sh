@@ -14,7 +14,7 @@ if ! type $PKG_NAME &> /dev/null; then
     prompt="$prompt Would you like to install it now?"
     if YesNo "${prompt}"; then
         # Install and exit the process if installation fails
-        $PKG_INSTALLER $PKG_INSTALLER_OPTS $PKG_NAME || exit 20
+        $PKG_INSTALLER $PKG_NAME || exit 20
         # All good
         return 0
     else

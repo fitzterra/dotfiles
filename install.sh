@@ -90,7 +90,7 @@ function checkStow () {
     fi
 
     echo -e "Attempting to install $STOWER...\n"
-    $PKG_INSTALLER $PKG_INSTALLER_OPTS $STOWER
+    $PKG_INSTALLER $STOWER
 
     if [ $? -ne 0 ]; then
         echo -e "\nCan not continue until this is fixed. Sorry..."
