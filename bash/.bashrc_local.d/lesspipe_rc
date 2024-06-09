@@ -1,6 +1,5 @@
-# This is to set up lesspipe on MacOS.
-# On Linux this just works, but on MacOS we need to install lesspipe via
-# homebrew and then set the environment variable.
+# This is to set up lesspipe as helper for less to view all types of files.
+# On Debian it is setup slightly differently than on MacOS.
 
 if [[ $(uname) = "Darwin" ]]; then
     # The latests lesspipe install, puts this in /usr/local/bin, but we stay
@@ -10,4 +9,8 @@ if [[ $(uname) = "Darwin" ]]; then
     elif [[ -f /usr/local/bin/lesspipe.sh ]]; then
         export LESSOPEN="|/usr/local/bin/lesspipe.sh %s"
     fi
+elif type lesspipe &> /dev/null; then
+    # Assume we're on Linux because we have the lesspipe command available.
+    # See the lesspipe man page for details
+    eval $(lesspipe)
 fi
