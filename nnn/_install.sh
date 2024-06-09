@@ -22,7 +22,7 @@ if ! type $PKG_NAME &> /dev/null; then
 fi
 
 # We need curl for installing nnn plugins
-if ! type curl; then
+if ! type curl &> /dev/null; then
     $PKG_INSTALLER curl || exit 20
 fi
 
