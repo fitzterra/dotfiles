@@ -16,5 +16,5 @@
 "       the quickfix window
 "
 " Map F5 to Mardown preview as an asyn grip process
-autocmd FileType markdown nmap <F5> :AsyncRun -cwd=$(VIM_FILE_DIR) grip -b $(VIM_FILENAME) <CR>
-autocmd FileType markdown nmap <C-F5> :AsyncRun -cwd=$(VIM_FILE_DIR) grip $(VIM_FILENAME) 0.0.0.0 <CR>
+autocmd FileType markdown nmap <F5> :AsyncRun -cwd=$(VIM_FILEDIR) grip -b $(VIM_FILENAME) <CR>
+autocmd FileType markdown nmap <C-F5> :AsyncRun -cwd=$(VIM_FILEDIR) grip $(VIM_FILENAME) 0.0.0.0 <CR>
