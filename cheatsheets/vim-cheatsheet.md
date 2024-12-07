@@ -18,7 +18,8 @@ My Vim Cheat Sheet
 13. [Reload vim config](#reload-vim-config)
 14. [Execute normal mode commands from insert mode](#execute-normal-mode-commands-from-insert-mode)
 15. [Change to, or toggle, upper or lower case](#change-to-or-toggle-upper-or-lower-case)
-
+16. [Open a file in a split window](#open-a-file-in-a-split-window)
+17. [Quickly replace all occurrences of text (refactor)](#quickly-replace-all-occurrences-of-text-refactor)
 
 ## External cheatsheets
 * Open with `gx`:
@@ -117,3 +118,16 @@ You have a file open in another tab and want it in the local tab as split:
     * To make the split window to the right: `:set splitright`
 * For horizontal split: `:split path/to/file`
     * To make the split window below: `set splitbelow`
+
+## Quickly replace all occurrences of text (refactor)
+This is a quick way to refactor a variable name across the current buffer.
+See https://vi.stackexchange.com/a/15506 for inspiration
+
+* Place the cursor over the variable to be refactored.
+* Do `#` or `%` to start a search for that name
+* Now do a global search and replace as normal, but leave the pattern empty.
+    The current search that was just started will be used for the pattern:  
+    `:%s//{replacement}/gc`
+* If it is just a slight change to the name, then you can do `C-r C-w` for the
+    replacement to copy the current name under the cursor (you are on the name
+    by virtue of the search done above) to the command line
