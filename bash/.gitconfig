@@ -36,6 +36,7 @@
     reviewone = !gvim -R -p +\"tabdo Gvdiffsplit $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 [push]
     default = simple
+    autoSetupRemote = true
 [core]
     excludesfile = ~/.gitignore-global
 [github]
