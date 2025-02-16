@@ -9,45 +9,6 @@ execute pathogen#helptags()
 " We want syntax highligting on
 syntax on
 
-" Set less eye-injuring colors for spell errors on terminal.
-" See here: https://vi.stackexchange.com/a/21168
-" Force to use underline for spell check results
-"augroup SpellUnderline
-"  autocmd!
-"  autocmd ColorScheme *
-"    \ highlight SpellBad
-"    \   cterm=Underline
-"    \   ctermfg=NONE
-"    \   ctermbg=NONE
-"    \   term=Reverse
-"    \   gui=Undercurl
-"    \   guisp=Red
-"  autocmd ColorScheme *
-"    \ highlight SpellCap
-"    \   cterm=Underline
-"    \   ctermfg=NONE
-"    \   ctermbg=NONE
-"    \   term=Reverse
-"    \   gui=Undercurl
-"    \   guisp=Red
-"  autocmd ColorScheme *
-"    \ highlight SpellLocal
-"    \   cterm=Underline
-"    \   ctermfg=NONE
-"    \   ctermbg=NONE
-"    \   term=Reverse
-"    \   gui=Undercurl
-"    \   guisp=Red
-"  autocmd ColorScheme *
-"    \ highlight SpellRare
-"    \   cterm=Underline
-"    \   ctermfg=NONE
-"    \   ctermbg=NONE
-"    \   term=Reverse
-"    \   gui=Undercurl
-"    \   guisp=Red
-"  augroup END
-
 " We prefer a dark background and dark color scheme. Ensure that this is the
 " case no matter where we start (g)vim
 set background=dark
@@ -116,6 +77,10 @@ map <C-S-Left> :tabmove -1<CR>
 imap <C-S-Left> <Esc>:tabmove -1<CR>
 map <C-S-Right> :tabmove +1<CR>
 imap <C-S-Right> <Esc>:tabmove +1<CR>
+" Poor man's zoom window with Ctrl-W z ala tmux.
+" All this does is edit the current window in a new tab. When done, just close
+" the tab and the original window split for this buffer is still there
+nnoremap <C-W>z :tabedit %<CR>
 
 " May need this if we have arb backups laying around
 "set nobackup           " Don't keep a backup file
