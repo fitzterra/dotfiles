@@ -42,7 +42,7 @@
 [github]
     user = fitzterra
 [diff]
-    tool = vimdiff
+	tool = gvimdiff
 [difftool]
     prompt = false
 [commit]
@@ -58,4 +58,4 @@
 [init]
 	defaultBranch = main
 [merge]
-	tool = vimdiff
+	tool = gvimdiff
