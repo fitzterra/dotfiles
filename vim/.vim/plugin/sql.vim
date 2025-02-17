@@ -10,6 +10,9 @@ function! UppercaseSQLKeywords()
                 \ 'inner', 'outer', 'left', 'right', 'full',
                 \ 'group', 'order', 'by', 'having', 'limit',
                 \ 'as', 'on', 'and', 'like',
+                \ 'is', 'null',
+                \ 'case', 'when', 'then', 'else', 'end',
+                \ 'count', 'sum',
                 \ ]
     " We use silent to ignore any errors for keywords not found.
     " The first "'<,'>" is o ensure we only search in the visual selection, but
