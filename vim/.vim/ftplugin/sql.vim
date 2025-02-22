@@ -24,5 +24,5 @@ function! UppercaseSQLKeywords()
     endfor
 endfunction
 
-autocmd FileType sql vnoremap <leader>U :<C-u>call UppercaseSQLKeywords()<CR>
+vnoremap <leader>U :<C-u>call UppercaseSQLKeywords()<CR>
 
