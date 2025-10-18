@@ -1,6 +1,7 @@
 " Configure ale
 let g:ale_linters = {
 \ 'python': ['pylint'] ,
+\ 'html': ['tidy'],
 \}
 
 let g:ale_fixers = {
