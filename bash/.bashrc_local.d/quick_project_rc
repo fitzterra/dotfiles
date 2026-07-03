@@ -1,0 +1,51 @@
+# Quick CD to different projects using fzf
+#
+# List of project bookmarks are kept in BOOKMARK_FILE with format:
+#  work      /home/joe/dev/work
+#  test      /home/joe/test
+#  lib-utils /opt/lib-utils
+#
+# Change to a bookmark dir with proj<CR> and then select from the list
+# Add the current dir to the BOOKMARK_FILE with:
+#  addproj proj-name
+#
+# The shortcut Ctrl-p is also bound to run the proj function
+
+if $(which fzf > /dev/null); then
+	BOOKMARK_FILE=~/.proj_bookmarks
+
+	# Function to call fzf to list the bookmark names, and then to cr to
+	# path for the name selected.
+	proj() {
+	  mkdir -p "$(dirname "$BOOKMARK_FILE")"
+
+	  local selected
+	  selected=$(awk '{print $1}' "$BOOKMARK_FILE" 2>/dev/null | \
+	    fzf --preview 'grep ^{} '"$BOOKMARK_FILE"' | cut -d" " -f2- | xargs ls -1' \
+		--prompt="Select project: ") || return
+
+	  local path
+	  path=$(grep "^$selected " "$BOOKMARK_FILE" | cut -d' ' -f2-)
+	  cd "$path"
+	}
+
+	# Function to add the current dir to the bookmarks file using the
+	# project named passed as only arg.
+	addproj() {
+	  local name=${1:-$(basename "$PWD")}
+      if [[ $name = "-h" || $name = "--help" ]]; then
+        echo -e "\naddproj proj-name\n\nto add curr dir as proj-name."
+        return
+      fi
+	  grep -q "^$name " "$BOOKMARK_FILE" && echo "Already exists" && return
+	  echo "$name $PWD" >> "$BOOKMARK_FILE"
+	  echo "Added $name → $PWD"
+	  # Now sort it in place
+	  sort -o "$BOOKMARK_FILE" "$BOOKMARK_FILE"
+	}
+
+	# Bing Ctrl-p to run the proj function
+	bind -x '"\C-p": proj'
+fi
+
+# vim: filetype=sh
