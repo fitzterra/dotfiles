@@ -1,0 +1,21 @@
+# Setup for starship shell prompt if it is found.
+# To install, follow the steps here: https://starship.rs/
+
+if $(which starship > /dev/null); then
+    export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+
+    # This is for setting the tab title dynamically based on and env var called
+    # TAB_TITLE or else fall back to the current dir.
+    # The TAB_TITLE env var is meant to be set by direnv in any project dir it
+    # is needed.
+
+    function set_fixed_title() {
+      local title="${TAB_TITLE:-$(basename "$PWD")}"
+      echo -ne "\033]0;${title}\a"
+    }
+
+    eval "$(starship init bash)"
+
+    # Hook into Starship so it's called before every prompt
+    starship_precmd_user_func="set_fixed_title"
+fi
