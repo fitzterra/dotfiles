@@ -1,0 +1,13 @@
+# See https://yazi-rs.github.io/docs/configuration/overview
+[mgr]
+append_keymap = [
+	{ on = [ "<Delete>" ], run = "remove", desc = "Trash selected file" },
+	{ on = [ "<S-Delete>" ], run = "remove --permanently", desc = "Permanently remove selected file" },
+	{ on = [ "/" ], run = "filter --smart", desc = "Filter files" },
+]
+
+[help]
+append_keymap = [
+	{ on = [ "/" ], run = "filter --smart", desc = "Filter help items." },
+	{ on = [ "q" ], run = "close", desc = "Close help." },
+]
