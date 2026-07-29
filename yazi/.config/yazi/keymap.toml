@@ -4,6 +4,7 @@ append_keymap = [
 	{ on = [ "<Delete>" ], run = "remove", desc = "Trash selected file" },
 	{ on = [ "<S-Delete>" ], run = "remove --permanently", desc = "Permanently remove selected file" },
 	{ on = [ "/" ], run = "filter --smart", desc = "Filter files" },
+    { on = "~", run = "cd ~", desc = "Go home" },
 ]
 
 [help]
