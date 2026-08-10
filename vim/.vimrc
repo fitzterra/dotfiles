@@ -72,6 +72,8 @@ imap <C-T> <Esc>:tabnew<CR>
 " normal and insert modes
 nnoremap <Leader>t :tabnew .<CR>
 nnoremap <Leader>T :Texplore<CR>
+" Alt-n opens a 30 wide netwrc navigator on the left
+nnoremap <A-n> :30Lexplore<CR>
 " Allow moving tabs left and right with Ctrl-Shift-Left/Right arrow
 map <C-S-Left> :tabmove -1<CR>
 imap <C-S-Left> <Esc>:tabmove -1<CR>

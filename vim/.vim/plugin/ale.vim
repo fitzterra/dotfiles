@@ -5,7 +5,7 @@ let g:ale_linters = {
 \}
 
 let g:ale_fixers = {
-\ 'python': ['black'],
+\ 'python': ['black'] ,
 \}
 
 " Run any fixers on save, e.g. black on python files
