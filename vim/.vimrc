@@ -56,6 +56,15 @@ nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
 " In GUI mode, the toolbar wastes more space than being useful. Remove it
 set guioptions-=T
 
+" Set a font and size if running in gui mode
+if has("gui_running")
+    if has("gui_gtk")
+    :set guifont=Luxi\ Mono\ 10
+    elseif has("x11")
+    :set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
+    endif
+endif
+
 " Make Ctrl-S save command in both normal mode and insert mode
 map <C-S> :w<CR>
 imap <C-S> <Esc>:w<CR>
